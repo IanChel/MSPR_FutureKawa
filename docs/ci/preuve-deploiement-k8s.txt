@@ -1,0 +1,46 @@
+============================================================
+ PREUVE DE DEPLOIEMENT KUBERNETES — FutureKawa
+ Cluster : Docker Desktop (kubeadm) — namespace futurekawa-test
+ Date de capture : Wed Jul  1 15:32:04     2026
+ Manifest deploye : k8s/futurekawa.yaml (+ overlay local k8s/local-deps.yaml)
+============================================================
+
+### PODS (tous Running / Ready) ###
+NAME                            READY   STATUS    RESTARTS        AGE   IP          NODE             NOMINATED NODE   READINESS GATES
+fk-central-77fc4d895f-xz8r9     1/1     Running   4 (2m38s ago)   16h   10.1.0.23   docker-desktop   <none>           <none>
+fk-mosquitto-79c7b5fccd-djzmf   1/1     Running   5 (2m50s ago)   18h   10.1.0.30   docker-desktop   <none>           <none>
+fk-pays-br-766d646c4b-tz9wm     1/1     Running   3 (2m41s ago)   16h   10.1.0.21   docker-desktop   <none>           <none>
+fk-pays-co-7f6d48d77f-sfnht     1/1     Running   3 (2m46s ago)   16h   10.1.0.28   docker-desktop   <none>           <none>
+fk-pays-ec-6d6679f876-wkgct     1/1     Running   3 (2m42s ago)   16h   10.1.0.27   docker-desktop   <none>           <none>
+fk-postgres-57bdbcf94f-fvw26    1/1     Running   5 (2m50s ago)   18h   10.1.0.24   docker-desktop   <none>           <none>
+
+### DEPLOYMENTS ###
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+fk-central     1/1     1            1           18h
+fk-mosquitto   1/1     1            1           18h
+fk-pays-br     1/1     1            1           18h
+fk-pays-co     1/1     1            1           18h
+fk-pays-ec     1/1     1            1           18h
+fk-postgres    1/1     1            1           18h
+
+### SERVICES ###
+NAME           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+fk-central     LoadBalancer   10.101.44.16     localhost     8090:30121/TCP   18h
+fk-mosquitto   ClusterIP      10.106.254.177   <none>        1883/TCP         18h
+fk-pays-br     ClusterIP      10.99.162.233    <none>        8080/TCP         18h
+fk-pays-co     ClusterIP      10.98.187.54     <none>        8082/TCP         18h
+fk-pays-ec     ClusterIP      10.109.226.77    <none>        8081/TCP         18h
+fk-postgres    ClusterIP      10.105.155.255   <none>        5432/TCP         18h
+
+### Verification sante backend central (/actuator/health) ###
+
+# (Acces externe) http://localhost:8090/actuator/health -> HTTP 403
+#   Le LoadBalancer route bien le trafic (reponse HTTP recue, pas de refus de connexion).
+#   403 = endpoint actuator protege par la securite Spring du central (normal).
+#   La sonde readiness interne passe (pods 1/1 Ready).
+
+### BILAN ###
+6/6 pods Running & Ready | 6 Deployments AVAILABLE | 6 Services crees.
+Deploiement realise via 'kubectl apply' du manifest k8s/futurekawa.yaml (identique a la cible Azure AKS).
+Local : PostgreSQL in-cluster (overlay k8s/local-deps.yaml) au lieu d'Azure Database ;
+        sondes liveness/readiness assouplies (ressources Docker Desktop limitees).

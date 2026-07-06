@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Historique des alertes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#" class="is-active"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#"><span class="ic">⚙</span> Paramètres</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Vue consolidée</span><div class="fk-top__spacer"></div>
+      <div class="fk-pays"><button class="is-active">Tous</button><button>Brésil</button><button>Équateur</button><button>Colombie</button></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Historique des alertes</h1><p>Incidents clôturés, avec durée et mode de résolution.</p></div>
+      <div class="fk-tabs">
+        <a href="#">Actives (4)</a><a href="#">Acquittées (1)</a><a href="#" class="is-active">Résolues</a>
+      </div>
+      <div class="fk-toolbar">
+        <input class="fk-input" type="date" style="width:auto" value="2026-06-15">
+        <span class="fk-muted">→</span>
+        <input class="fk-input" type="date" style="width:auto" value="2026-06-22">
+        <div class="fk-top__spacer"></div>
+        <button class="fk-btn fk-btn--ghost fk-btn--sm">Exporter CSV</button>
+      </div>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Type</th><th>Description</th><th>Pays · lieu</th><th>Déclenchée</th><th>Résolue</th><th>Durée</th><th>Mode</th></tr></thead>
+          <tbody>
+            <tr><td><span class="fk-badge muted">Conditions</span></td><td>21,3 °C / 45,6 %</td><td>Brésil · Entrepôt 1</td><td class="fk-muted" style="font-size:13px">21 juin 15:32</td><td class="fk-muted" style="font-size:13px">21 juin 15:38</td><td class="fk-mono">6 min</td><td><span class="fk-badge ok">Auto</span></td></tr>
+            <tr><td><span class="fk-badge muted">Conditions</span></td><td>36,5 °C / 65,2 %</td><td>Brésil · Entrepôt 1</td><td class="fk-muted" style="font-size:13px">21 juin 09:25</td><td class="fk-muted" style="font-size:13px">21 juin 09:30</td><td class="fk-mono">5 min</td><td><span class="fk-badge info">Manuel</span></td></tr>
+            <tr><td><span class="fk-badge muted">Conditions</span></td><td>20,9 °C / 69,2 %</td><td>Brésil · Entrepôt 3</td><td class="fk-muted" style="font-size:13px">19 juin 15:13</td><td class="fk-muted" style="font-size:13px">19 juin 15:16</td><td class="fk-mono">3 min</td><td><span class="fk-badge ok">Auto</span></td></tr>
+            <tr><td><span class="fk-badge muted">Conditions</span></td><td>22,8 °C / 68,7 %</td><td>Équateur · Finca El Oro</td><td class="fk-muted" style="font-size:13px">18 juin 20:36</td><td class="fk-muted" style="font-size:13px">18 juin 20:37</td><td class="fk-mono">1 min</td><td><span class="fk-badge ok">Auto</span></td></tr>
+          </tbody>
+        </table>
+        <div class="fk-pagination"><button>‹</button><button class="is-active">1</button><button>2</button><button>3</button><button>›</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

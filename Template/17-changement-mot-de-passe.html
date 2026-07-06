@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureKawa — Changer le mot de passe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+    <aside class="fk-side">
+        <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+        <nav class="fk-nav">
+            <a href="#" class="is-active"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+        </nav>
+        <div class="fk-side__foot">v1.0 · Brésil</div>
+    </aside>
+    <div class="fk-main">
+        <header class="fk-top"><span class="fk-top__title">Mon compte</span><div class="fk-top__spacer"></div>
+            <div class="fk-user"><div class="fk-avatar">JS</div><div class="fk-user__meta"><div class="fk-user__name">João Silva</div><div class="fk-user__role">Opérateur · Brésil</div></div></div>
+        </header>
+        <main class="fk-content" style="max-width:560px">
+            <div class="fk-page-head"><h1>Changer le mot de passe</h1><p>Choisissez un mot de passe robuste, différent des précédents.</p></div>
+            <div class="fk-card">
+                <div class="fk-card__body">
+                    <div class="fk-field"><label>Mot de passe actuel</label><input class="fk-input" type="password" placeholder="••••••••"></div>
+                    <div class="fk-field"><label>Nouveau mot de passe</label><input class="fk-input" type="password" placeholder="••••••••"></div>
+                    <div class="fk-field"><label>Confirmer le nouveau mot de passe</label><input class="fk-input" type="password" placeholder="••••••••"></div>
+
+                    <div style="background:var(--parchemin); border:1px solid var(--grain); border-radius:var(--r-s); padding:12px 14px; font-size:13px; margin-bottom:18px">
+                        <b style="font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--encre-doux)">Exigences</b>
+                        <div class="fk-stack" style="margin-top:8px; gap:5px">
+                            <span><span style="color:var(--ok)">✓</span> Au moins 8 caractères</span>
+                            <span><span style="color:var(--ok)">✓</span> Une majuscule et une minuscule</span>
+                            <span><span style="color:var(--ok)">✓</span> Un chiffre</span>
+                            <span><span style="color:var(--encre-doux)">○</span> Un caractère spécial</span>
+                        </div>
+                    </div>
+
+                    <div class="fk-row" style="justify-content:flex-end; gap:10px">
+                        <button class="fk-btn fk-btn--ghost">Annuler</button>
+                        <button class="fk-btn fk-btn--primary">Mettre à jour</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

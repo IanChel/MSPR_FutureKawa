@@ -1,0 +1,23 @@
+# ============================================================
+#  backend-central — profil "docker"
+#  À placer dans : backend-central/src/main/resources/application-docker.yml
+#  Activé par SPRING_PROFILES_ACTIVE=docker (voir docker-compose).
+#
+#  RÔLE : remplacer l'annuaire des pays (app.pays) pour pointer
+#  vers les CONTENEURS au lieu de localhost. La liste de profil
+#  remplace entièrement celle du fichier de base.
+#  La base Identité et le secret JWT viennent des variables
+#  d'environnement (docker-compose) — rien à mettre ici pour ça.
+# ============================================================
+
+app:
+  pays:
+    - code: BRESIL
+      url: http://fk-pays-bresil:8080
+    - code: EQUATEUR
+      url: http://fk-pays-equateur:8081
+    - code: COLOMBIE
+      url: http://fk-pays-colombie:8082
+  client:
+    connect-timeout-ms: 2000
+    read-timeout-ms: 3000

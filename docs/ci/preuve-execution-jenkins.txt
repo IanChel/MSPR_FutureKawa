@@ -1,0 +1,453 @@
+Started by user unknown or anonymous
+Obtained Jenkinsfile from git file:///repo
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/jobs/FutureKawa-CI/workspace
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/jobs/FutureKawa-CI/workspace/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url file:///repo # timeout=10
+Fetching upstream changes from file:///repo
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- file:///repo +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/sarah^{commit} # timeout=10
+Checking out Revision 8ee530ffbed8c4ea122a80dbc67c13ce953532e0 (refs/remotes/origin/sarah)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 8ee530ffbed8c4ea122a80dbc67c13ce953532e0 # timeout=10
+Commit message: "ci(jenkins): images Docker via JAR deja packages (Dockerfile.ci) au lieu de recompiler Maven dans le build"
+ > git rev-list --no-walk 202dddfc24034c45ccf8f15c1f997484bd8d47c2 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 30 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/jobs/FutureKawa-CI/workspace/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url file:///repo # timeout=10
+Fetching upstream changes from file:///repo
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- file:///repo +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/sarah^{commit} # timeout=10
+Checking out Revision 8ee530ffbed8c4ea122a80dbc67c13ce953532e0 (refs/remotes/origin/sarah)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 8ee530ffbed8c4ea122a80dbc67c13ce953532e0 # timeout=10
+Commit message: "ci(jenkins): images Docker via JAR deja packages (Dockerfile.ci) au lieu de recompiler Maven dans le build"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Tests — back-end pays)
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays
+[Pipeline] {
+[Pipeline] sh
++ chmod +x mvnw
+[Pipeline] sh
++ ./mvnw -B test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.futurekawa:backend-pays >---------------------
+[INFO] Building backend-pays 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend-pays ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 6 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend-pays ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend-pays ---
+[INFO] skip non existing resourceDirectory /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend-pays ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend-pays ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running AlerteService — ouverture d'alerte conditions & péremption
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/var/jenkins_home/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+15:09:42.188 [main] WARN com.futurekawa.pays.alerte.service.AlerteService -- ALERTE CONDITION ouverte : Conditions hors plage dans l'entrepot 1 : 40.0°C / 55.0% (attendu 26-32°C / 53-57%)
+15:09:42.242 [main] WARN com.futurekawa.pays.alerte.service.AlerteService -- ALERTE PEREMPTION levée : Lot BR-2024-001 périmé : 400 jours de stockage (> 365)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.323 s -- in AlerteService — ouverture d'alerte conditions & péremption
+[INFO] Running HysteresisTracker — compteurs consécutifs par entrepôt
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in HysteresisTracker — compteurs consécutifs par entrepôt
+[INFO] Running SeuilConfig — bande acceptable température / humidité (Brésil)
+[INFO] Running estDansLaBande
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in estDansLaBande
+[INFO] Running Calcul des bornes
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in Calcul des bornes
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in SeuilConfig — bande acceptable température / humidité (Brésil)
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.654 s
+[INFO] Finished at: 2026-06-30T15:09:42Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Tests — back-end central)
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central
+[Pipeline] {
+[Pipeline] sh
++ chmod +x mvnw
+[Pipeline] sh
++ ./mvnw -B test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.futurekawa:backend-central >-------------------
+[INFO] Building backend-central 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend-central ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend-central ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend-central ---
+[INFO] skip non existing resourceDirectory /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend-central ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend-central ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running ConsolidationService — fusion multi-pays & tolérance aux pannes
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/var/jenkins_home/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+15:09:47.616 [main] WARN com.futurekawa.central.service.ConsolidationService -- Pays COLOMBIE injoignable sur /lots : connexion refusée / timeout
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.087 s -- in ConsolidationService — fusion multi-pays & tolérance aux pannes
+[INFO] Running IsolationPaysService — contrôle d'accès par pays
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in IsolationPaysService — contrôle d'accès par pays
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.384 s
+[INFO] Finished at: 2026-06-30T15:09:47Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Tests — front-end)
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/front-end
+[Pipeline] {
+[Pipeline] sh
++ npm ci
+
+added 255 packages, and audited 256 packages in 4s
+
+60 packages are looking for funding
+  run `npm fund` for details
+
+2 vulnerabilities (1 moderate, 1 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+[Pipeline] sh
++ npm test
+
+> front-end@0.0.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.9 [39m[90m/var/jenkins_home/jobs/FutureKawa-CI/workspace/front-end[39m
+
+ [32m✓[39m src/context/auth-helpers.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 15:09:53
+[2m   Duration [22m 339ms[2m (transform 61ms, setup 0ms, import 84ms, tests 5ms, environment 0ms)[22m
+
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Packaging)
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays
+[Pipeline] {
+[Pipeline] sh
++ ./mvnw -B -DskipTests package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.futurekawa:backend-pays >---------------------
+[INFO] Building backend-pays 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend-pays ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 6 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend-pays ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend-pays ---
+[INFO] skip non existing resourceDirectory /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend-pays ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend-pays ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ backend-pays ---
+[INFO] 
+[INFO] --- spring-boot:3.5.15:repackage (repackage) @ backend-pays ---
+[INFO] Replacing main artifact /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays/target/backend-pays-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-pays/target/backend-pays-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.748 s
+[INFO] Finished at: 2026-06-30T15:09:56Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central
+[Pipeline] {
+[Pipeline] sh
++ ./mvnw -B -DskipTests package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.futurekawa:backend-central >-------------------
+[INFO] Building backend-central 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend-central ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend-central ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend-central ---
+[INFO] skip non existing resourceDirectory /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend-central ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend-central ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ backend-central ---
+[INFO] 
+[INFO] --- spring-boot:3.5.15:repackage (repackage) @ backend-central ---
+[INFO] Replacing main artifact /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central/target/backend-central-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /var/jenkins_home/jobs/FutureKawa-CI/workspace/backend-central/target/backend-central-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.843 s
+[INFO] Finished at: 2026-06-30T15:10:00Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/jenkins_home/jobs/FutureKawa-CI/workspace/front-end
+[Pipeline] {
+[Pipeline] sh
++ npm run build
+
+> front-end@0.0.0 build
+> vite build
+
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 1824 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                 [39m[1m[2m  0.46 kB[22m[1m[22m[2m │ gzip:   0.30 kB[22m
+[2mdist/[22m[2massets/[22m[35mindex-B4E8fagG.css  [39m[1m[2m 30.07 kB[22m[1m[22m[2m │ gzip:   5.78 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-DpZbY6A6.js   [39m[1m[33m540.84 kB[39m[22m[2m │ gzip: 162.88 kB[22m
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 4.49s[39m
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Images Docker)
+[Pipeline] sh
++ docker build -f backend-pays/Dockerfile.ci -t futurekawa/backend-pays:2 -t futurekawa/backend-pays:latest backend-pays
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.ci
+#1 transferring dockerfile: 750B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/eclipse-temurin:21-jre
+#2 DONE 0.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/eclipse-temurin:21-jre@sha256:8ec353b20d3aab0758572236b81b967c7077c40c4d0819ce97f9a1329d684603
+#4 resolve docker.io/library/eclipse-temurin:21-jre@sha256:8ec353b20d3aab0758572236b81b967c7077c40c4d0819ce97f9a1329d684603 0.1s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 68.27MB 3.6s done
+#5 DONE 3.6s
+
+#6 [2/3] WORKDIR /app
+#6 CACHED
+
+#7 [3/3] COPY target/*.jar app.jar
+#7 DONE 0.5s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 2.6s done
+#8 exporting manifest sha256:d52896eccb5878012960d8054b97f1f2a061bbc71196e1a58e1c3271e8d98925 0.0s done
+#8 exporting config sha256:a37a7cd42cf52cf73a1165f1bf5987d80cf3ee52e57dc233339f81fe3e1951a3 done
+#8 exporting attestation manifest sha256:f728e510ce5decfda196a33ffe74e0327f1a4bb73cff2c0f9ced1c44fa74d774 0.0s done
+#8 exporting manifest list sha256:1b2b824a732d5299078baa352a32a3d2bee6b9dc78a1002bf35324e17d5ca6e9 done
+#8 naming to docker.io/futurekawa/backend-pays:2 done
+#8 unpacking to docker.io/futurekawa/backend-pays:2
+#8 unpacking to docker.io/futurekawa/backend-pays:2 0.4s done
+#8 naming to docker.io/futurekawa/backend-pays:latest done
+#8 unpacking to docker.io/futurekawa/backend-pays:latest 0.0s done
+#8 DONE 3.1s
+[Pipeline] sh
++ docker build -f backend-central/Dockerfile.ci -t futurekawa/backend-central:2 -t futurekawa/backend-central:latest backend-central
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.ci
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile.ci
+#1 transferring dockerfile: 677B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/eclipse-temurin:21-jre
+#2 DONE 0.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/eclipse-temurin:21-jre@sha256:8ec353b20d3aab0758572236b81b967c7077c40c4d0819ce97f9a1329d684603
+#4 resolve docker.io/library/eclipse-temurin:21-jre@sha256:8ec353b20d3aab0758572236b81b967c7077c40c4d0819ce97f9a1329d684603 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 65.09MB 3.4s done
+#5 DONE 3.4s
+
+#6 [2/3] WORKDIR /app
+#6 CACHED
+
+#7 [3/3] COPY target/*.jar app.jar
+#7 DONE 0.2s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 2.7s done
+#8 exporting manifest sha256:6d1f1f1c95fc7f79eb83f492847230f94ceb0509f7bb2f3143b8b6690966fd7b 0.0s done
+#8 exporting config sha256:148a824980ec488ddd92aaf9cc99cc4e221e53cdc738a8e5cf8aae514419e8ca 0.0s done
+#8 exporting attestation manifest sha256:802a11fca72687253f12e8b86548ede31e36adee9e388c68aa9d977b2451b4df 0.0s done
+#8 exporting manifest list sha256:2d863a56c9ac556c6ca7d62ec58a8aa6b8af8e5a36f3664d9630167ff2e11731 0.0s done
+#8 naming to docker.io/futurekawa/backend-central:2 done
+#8 unpacking to docker.io/futurekawa/backend-central:2
+#8 unpacking to docker.io/futurekawa/backend-central:2 0.4s done
+#8 naming to docker.io/futurekawa/backend-central:latest done
+#8 unpacking to docker.io/futurekawa/backend-central:latest 0.0s done
+#8 DONE 3.3s
+[Pipeline] sh
++ docker image ls --filter=reference=futurekawa/*
+IMAGE                               ID             DISK USAGE   CONTENT SIZE   EXTRA
+futurekawa/backend-central:2        2d863a56c9ac        577MB          173MB        
+futurekawa/backend-central:latest   2d863a56c9ac        577MB          173MB        
+futurekawa/backend-pays:1           cfae1810bdb7        584MB          176MB        
+futurekawa/backend-pays:2           1b2b824a732d        584MB          176MB        
+futurekawa/backend-pays:latest      1b2b824a732d        584MB          176MB        
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] echo
+✅ BUILD VERT — tests (back + front), packaging et images Docker réussis.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

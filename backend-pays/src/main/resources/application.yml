@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: backend-pays
+  profiles:
+    default: dev
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/futurekawa}
+    username: ${DB_USER:futurekawa}
+    password: ${DB_PASSWORD:changeme}
+
+  jpa:
+    hibernate:
+      ddl-auto: none        # le schéma est géré par Flyway, jamais par Hibernate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC        # tous les timestamps en UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration,classpath:db/seed/bresil
+
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}     # Mailpit en dev
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+# --- Configuration métier externalisée (placeholders, exploités en Phase 4 / 10) ---
+app:
+  pays: ${APP_PAYS:BRESIL}
+  alerting:
+    email-destinataire: ${APP_EMAIL_RESPONSABLE:responsable-bresil@futurekawa.example}
+  alerte:
+    mesures-consecutives-ouverture: 3
+    mesures-consecutives-resolution: 3
+    rappel-intervalle-minutes: 1
+  seuils:
+    temperature-ideale: 29
+    humidite-ideale: 55
+    tolerance-temperature: 3
+    tolerance-humidite: 2
+  mqtt:
+    broker-url: ${MQTT_URL:tcp://localhost:1883}
+    topic-mesures: ${MQTT_TOPIC:futurekawa/bresil/+/mesures}
+    client-id: backend-pays-bresil
+
+# Swagger UI -> http://localhost:8080/swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+---
+# Profil "docker" : à utiliser quand le back-end sera lui-même conteneurisé (Phase 5).
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/futurekawa
+  mail:
+    host: mailpit
+app:
+  mqtt:
+    broker-url: tcp://mosquitto:1883

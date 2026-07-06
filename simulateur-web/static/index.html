@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureKawa — Pilotage du capteur</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root { --bg:#0f1115; --card:#1a1d24; --line:#2a2f3a; --txt:#e6e8ec; --muted:#9aa3b2; --accent:#c08457; --accent2:#4a90d9; --ok:#3ec98a; --warn:#e0653a; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
+    h1 { font-size:20px; margin:0 0 4px; } h2 { font-size:15px; margin:0 0 12px; }
+    .sub { color:var(--muted); font-size:13px; margin-bottom:18px; }
+    .grid { display:grid; grid-template-columns:360px 1fr; gap:20px; align-items:start; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+    label { display:block; font-size:12px; color:var(--muted); margin:12px 0 4px; text-transform:uppercase; letter-spacing:.04em; }
+    select, input[type=number], input[type=text] { width:100%; padding:9px 10px; background:#11141a; color:var(--txt); border:1px solid var(--line); border-radius:8px; font-size:14px; }
+    select:disabled { opacity:.5; }
+    .modes { display:flex; gap:8px; margin-top:6px; }
+    .modes button { flex:1; padding:9px; border-radius:8px; border:1px solid var(--line); background:#11141a; color:var(--txt); cursor:pointer; font-size:13px; }
+    .modes button.active { border-color:var(--accent); background:#241c14; color:var(--accent); }
+    .actions { display:flex; gap:10px; margin-top:18px; }
+    .btn { flex:1; padding:11px; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:600; }
+    .btn-start { background:var(--ok); color:#06281a; }
+    .btn-stop { background:var(--warn); color:#2a0f06; }
+    .btn-ghost { background:transparent; color:var(--muted); border:1px solid var(--line); }
+    .btn:disabled { opacity:.4; cursor:not-allowed; }
+    .live { display:flex; gap:16px; margin-bottom:16px; }
+    .metric { flex:1; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; }
+    .metric .val { font-size:30px; font-weight:700; } .metric .lbl { font-size:12px; color:var(--muted); }
+    .status { display:inline-flex; align-items:center; gap:8px; font-size:13px; padding:6px 12px; border-radius:20px; border:1px solid var(--line); }
+    .dot { width:10px; height:10px; border-radius:50%; background:var(--muted); } .dot.ok { background:var(--ok); } .dot.warn { background:var(--warn); }
+    canvas { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; }
+    .err { color:var(--warn); font-size:13px; margin-top:10px; min-height:18px; }
+    .ok-msg { color:var(--ok); font-size:13px; margin-top:8px; min-height:18px; }
+    .cfg-card { margin-bottom:22px; border-color:var(--accent2); }
+    .cfg-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 14px; }
+    .cfg-grid .full { grid-column:1 / -1; }
+    .topic-box { margin-top:10px; font-size:12px; color:var(--muted); background:#11141a; border:1px solid var(--line); border-radius:8px; padding:10px; line-height:1.6; }
+    .topic-box code { color:var(--accent2); font-size:13px; }
+    @media (max-width:720px){ .cfg-grid { grid-template-columns:1fr; } .grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<h1>☕ FutureKawa — Pilotage du capteur physique</h1>
+<div class="sub">Configurez le contexte, puis démarrez / arrêtez l'envoi des mesures à distance. Le capteur n'envoie rien tant que vous n'avez pas cliqué « Démarrer ».</div>
+
+<!-- ============ PILOTAGE DU CAPTEUR PHYSIQUE ============ -->
+<div class="card cfg-card">
+  <div class="status" style="float:right"><span class="dot" id="capDot"></span><span id="capStatus">À l'arrêt</span></div>
+  <h2>📡 Capteur physique</h2>
+
+  <label>Identifiant du capteur (= DEVICE_ID du firmware)</label>
+  <input type="text" id="deviceId" value="capteur-01">
+
+  <div class="err" id="paysErr" style="margin:8px 0"></div>
+  <div class="cfg-grid" style="margin-top:6px">
+    <div><label>Pays <button onclick="initPays()" style="margin-left:6px;padding:2px 7px;font-size:11px;border-radius:6px;border:1px solid var(--line);background:#11141a;color:var(--muted);cursor:pointer">↻</button></label><select id="cfgPays"></select></div>
+    <div><label>Exploitation</label><select id="cfgExp" disabled></select></div>
+    <div><label>Entrepôt</label><select id="cfgEnt" disabled></select></div>
+    <div><label>Capteur</label><select id="cfgCap" disabled></select></div>
+    <div><label>Fréquence d'envoi (s)</label><input type="number" id="cfgFreq" value="30" min="2" step="1"></div>
+    <div></div>
+  </div>
+
+  <div class="topic-box">
+    Mesures publiées sur : <code id="cfgTopicMesures">—</code><br>
+    Config envoyée sur : <code id="cfgTopicConfig">futurekawa/config/capteur-01</code> ·
+    commande sur : <code id="cfgTopicCmd">futurekawa/commande/capteur-01</code>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-start" id="capStart" onclick="demarrerCapteur()">▶ Démarrer</button>
+    <button class="btn btn-stop" id="capStop" onclick="arreterCapteur()" disabled>■ Arrêter</button>
+  </div>
+  <div class="actions" style="margin-top:10px">
+    <button class="btn btn-ghost" onclick="effacerConfig()">🗑️ Effacer la config retenue</button>
+  </div>
+  <div class="err" id="capErr"></div>
+  <div class="ok-msg" id="capOk"></div>
+</div>
+
+<!-- ============ SIMULATION ============ -->
+<h2 style="margin:24px 0 12px">🧪 Simulation (mesures générées — pour tester sans capteur)</h2>
+<div class="grid">
+  <div class="card">
+    <label>Pays <button onclick="initPays()" style="margin-left:6px;padding:2px 7px;font-size:11px;border-radius:6px;border:1px solid var(--line);background:#11141a;color:var(--muted);cursor:pointer">↻</button></label><select id="pays"></select>
+    <label>Exploitation</label><select id="exploitation" disabled></select>
+    <label>Entrepôt</label><select id="entrepot" disabled></select>
+    <label>Capteur</label><select id="capteur" disabled></select>
+    <label>Mode</label>
+    <div class="modes">
+      <button id="mode-normal" class="active" onclick="setMode('normal')">Normal</button>
+      <button id="mode-anomalie" onclick="setMode('anomalie')">Anomalie</button>
+    </div>
+    <label>Fréquence d'envoi (secondes)</label>
+    <input type="number" id="frequence" value="5" min="1" step="1">
+    <div class="actions">
+      <button class="btn btn-start" id="btnStart" onclick="demarrer()">▶ Démarrer</button>
+      <button class="btn btn-stop" id="btnStop" onclick="arreter()" disabled>■ Arrêter</button>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+  <div>
+    <div class="live">
+      <div class="metric"><div class="val" id="vTemp">--</div><div class="lbl">Température °C</div></div>
+      <div class="metric"><div class="val" id="vHum">--</div><div class="lbl">Humidité %</div></div>
+      <div class="metric"><div class="val" id="vCount">0</div><div class="lbl">Mesures envoyées</div></div>
+    </div>
+    <div style="margin-bottom:12px;"><span class="status"><span class="dot" id="dot"></span><span id="statusTxt">À l'arrêt</span></span></div>
+    <canvas id="chart" height="110"></canvas>
+  </div>
+</div>
+
+<script>
+  const API = window.location.port === "8050" ? "" : "http://localhost:8050";
+  let mode = "normal";
+  let currentCapteur = null;
+  let chart;
+
+  function setMode(m){ mode=m; document.getElementById("mode-normal").classList.toggle("active",m==="normal"); document.getElementById("mode-anomalie").classList.toggle("active",m==="anomalie"); }
+  const PAYS_NOMS = { "BRESIL":"Brésil", "EQUATEUR":"Équateur", "COLOMBIE":"Colombie" };
+
+  async function _parseErr(r){ const t=await r.text(); try{ return JSON.parse(t).detail||t; }catch{ return t||"Erreur inconnue"; } }
+  async function jget(url){ const r=await fetch(API+url); if(!r.ok) throw new Error(await _parseErr(r)); return r.json(); }
+  function selText(id){ const s=document.getElementById(id); return s.options[s.selectedIndex] ? s.options[s.selectedIndex].text : ""; }
+  function fill(id,arr,valFn,txtFn){ const sel=document.getElementById(id); sel.disabled=false; sel.innerHTML='<option value="">— choisir —</option>'+arr.map(x=>`<option value="${valFn(x)}">${txtFn(x)}</option>`).join(""); }
+  function resetSelect(id){ const sel=document.getElementById(id); sel.innerHTML=""; sel.disabled=true; }
+
+  async function initPays(){
+    document.getElementById("paysErr").textContent="⏳ Chargement des pays…";
+    try{
+      const data=await jget("/api/pays");
+      const opts='<option value="">— choisir —</option>'+data.map(p=>`<option value="${p.code}">${PAYS_NOMS[p.code]||p.code}</option>`).join("");
+      document.getElementById("cfgPays").innerHTML=opts;
+      document.getElementById("pays").innerHTML=opts;
+      document.getElementById("paysErr").textContent="";
+    }catch(e){
+      document.getElementById("paysErr").textContent="❌ Impossible de charger les pays : "+e.message;
+    }
+  }
+
+  // ===== Cascade CAPTEUR =====
+  document.getElementById("cfgPays").onchange=async(e)=>{ const c=e.target.value; resetSelect("cfgExp"); resetSelect("cfgEnt"); resetSelect("cfgCap"); majTopicMesures(); if(!c)return; fill("cfgExp",await jget(`/api/pays/${c}/exploitations`),x=>x.id,x=>x.nom); };
+  document.getElementById("cfgExp").onchange=async(e)=>{ const c=document.getElementById("cfgPays").value,id=e.target.value; resetSelect("cfgEnt"); resetSelect("cfgCap"); majTopicMesures(); if(!id)return; fill("cfgEnt",await jget(`/api/pays/${c}/exploitations/${id}/entrepots`),x=>x.id,x=>x.nom); };
+  document.getElementById("cfgEnt").onchange=async(e)=>{ const c=document.getElementById("cfgPays").value,id=e.target.value; resetSelect("cfgCap"); majTopicMesures(); if(!id)return; fill("cfgCap",await jget(`/api/pays/${c}/entrepots/${id}/capteurs`),x=>x.identifiantMqtt,x=>x.identifiantMqtt); };
+  document.getElementById("deviceId").oninput=()=>{ const d=document.getElementById("deviceId").value||"capteur-01"; document.getElementById("cfgTopicConfig").textContent="futurekawa/config/"+d; document.getElementById("cfgTopicCmd").textContent="futurekawa/commande/"+d; };
+  function majTopicMesures(){ const c=document.getElementById("cfgPays").value,id=document.getElementById("cfgEnt").value; document.getElementById("cfgTopicMesures").textContent=(c&&id)?`futurekawa/${c.toLowerCase()}/${id}/mesures`:"—"; }
+
+  async function demarrerCapteur(){
+    const deviceId=document.getElementById("deviceId").value.trim();
+    const pays=document.getElementById("cfgPays").value;
+    const entrepotId=document.getElementById("cfgEnt").value;
+    const capteurId=document.getElementById("cfgCap").value;
+    const frequence=parseFloat(document.getElementById("cfgFreq").value)||30;
+    document.getElementById("capErr").textContent=""; document.getElementById("capOk").textContent="";
+    if(!deviceId||!pays||!entrepotId){ document.getElementById("capErr").textContent="Renseigne l'identifiant, le pays et l'entrepôt."; return; }
+    try{
+      const r=await fetch(API+"/api/capteur/demarrer",{ method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ deviceId, pays, entrepotId:parseInt(entrepotId), capteurId:capteurId||null, frequence,
+          paysNom:pays, exploitationNom:selText("cfgExp"), entrepotNom:selText("cfgEnt"), capteurNom:selText("cfgCap") }) });
+      if(!r.ok) throw new Error(await _parseErr(r));
+      const d=await r.json();
+      document.getElementById("capOk").textContent=`✅ Démarré : mesures vers ${d.config.topic} toutes les ${d.config.frequence}s`;
+      document.getElementById("capStart").disabled=true; document.getElementById("capStop").disabled=false;
+      document.getElementById("capDot").className="dot ok"; document.getElementById("capStatus").textContent="Publication active";
+    }catch(e){ document.getElementById("capErr").textContent=e.message; }
+  }
+  async function arreterCapteur(){
+    const deviceId=document.getElementById("deviceId").value.trim()||"capteur-01";
+    document.getElementById("capErr").textContent=""; document.getElementById("capOk").textContent="";
+    try{
+      const r=await fetch(API+`/api/capteur/arreter/${deviceId}`,{ method:"POST" });
+      if(!r.ok) throw new Error(await _parseErr(r));
+      document.getElementById("capOk").textContent="■ Ordre d'arrêt envoyé.";
+      document.getElementById("capStart").disabled=false; document.getElementById("capStop").disabled=true;
+      document.getElementById("capDot").className="dot"; document.getElementById("capStatus").textContent="À l'arrêt";
+    }catch(e){ document.getElementById("capErr").textContent=e.message; }
+  }
+  async function effacerConfig(){
+    const deviceId=document.getElementById("deviceId").value.trim()||"capteur-01";
+    try{
+      const r=await fetch(API+`/api/capteur/effacer-config/${deviceId}`,{ method:"POST" });
+      if(!r.ok) throw new Error(await _parseErr(r));
+      document.getElementById("capOk").textContent="🗑️ Config retenue effacée.";
+    }catch(e){ document.getElementById("capErr").textContent=e.message; }
+  }
+
+  // ===== Cascade SIMULATION =====
+  document.getElementById("pays").onchange=async(e)=>{ const c=e.target.value; resetSelect("exploitation"); resetSelect("entrepot"); resetSelect("capteur"); if(!c)return; fill("exploitation",await jget(`/api/pays/${c}/exploitations`),x=>x.id,x=>x.nom); };
+  document.getElementById("exploitation").onchange=async(e)=>{ const c=document.getElementById("pays").value,id=e.target.value; resetSelect("entrepot"); resetSelect("capteur"); if(!id)return; fill("entrepot",await jget(`/api/pays/${c}/exploitations/${id}/entrepots`),x=>x.id,x=>x.nom); };
+  document.getElementById("entrepot").onchange=async(e)=>{ const c=document.getElementById("pays").value,id=e.target.value; resetSelect("capteur"); if(!id)return; fill("capteur",await jget(`/api/pays/${c}/entrepots/${id}/capteurs`),x=>x.identifiantMqtt,x=>x.identifiantMqtt); };
+
+  async function demarrer(){
+    const pays=document.getElementById("pays").value, entrepotId=document.getElementById("entrepot").value, capteurId=document.getElementById("capteur").value, frequence=parseFloat(document.getElementById("frequence").value);
+    document.getElementById("err").textContent="";
+    if(!pays||!entrepotId||!capteurId){ document.getElementById("err").textContent="Sélectionne pays, entrepôt et capteur."; return; }
+    try{
+      const r=await fetch(API+"/api/simulation/demarrer",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ pays, entrepotId:parseInt(entrepotId), capteurId, mode, frequence }) });
+      if(!r.ok) throw new Error(await _parseErr(r));
+      currentCapteur=capteurId; document.getElementById("btnStart").disabled=true; document.getElementById("btnStop").disabled=false; resetChart();
+    }catch(e){ document.getElementById("err").textContent=e.message; }
+  }
+  async function arreter(){
+    if(!currentCapteur)return;
+    await fetch(API+`/api/simulation/arreter/${currentCapteur}`,{ method:"POST" });
+    document.getElementById("btnStart").disabled=false; document.getElementById("btnStop").disabled=true;
+  }
+  function resetChart(){ chart.data.labels=[]; chart.data.datasets[0].data=[]; chart.data.datasets[1].data=[]; chart.update(); }
+  async function poll(){
+    try{
+      const etats=await jget("/api/simulation/etat");
+      const sim=etats.find(s=>s.capteurId===currentCapteur);
+      if(sim&&sim.dernier){
+        const d=sim.dernier;
+        document.getElementById("vTemp").textContent=d.temperature; document.getElementById("vHum").textContent=d.humidite; document.getElementById("vCount").textContent=sim.compteur;
+        const dot=document.getElementById("dot"),st=document.getElementById("statusTxt");
+        if(!sim.actif){ dot.className="dot"; st.textContent="À l'arrêt"; }
+        else if(d.horsPlage){ dot.className="dot warn"; st.textContent="Hors plage → alerte attendue"; }
+        else { dot.className="dot ok"; st.textContent="Conditions normales"; }
+        chart.data.labels.push(new Date(d.timestamp).toLocaleTimeString());
+        chart.data.datasets[0].data.push(d.temperature); chart.data.datasets[1].data.push(d.humidite);
+        if(chart.data.labels.length>30){ chart.data.labels.shift(); chart.data.datasets[0].data.shift(); chart.data.datasets[1].data.shift(); }
+        chart.update();
+      }
+    }catch(e){}
+  }
+  function initChart(){
+    chart=new Chart(document.getElementById("chart"),{ type:"line",
+      data:{ labels:[], datasets:[ {label:"Température °C",data:[],borderColor:"#e0653a",tension:.3}, {label:"Humidité %",data:[],borderColor:"#4a90d9",tension:.3} ]},
+      options:{ animation:false, scales:{ y:{ beginAtZero:false } }, plugins:{ legend:{ labels:{ color:"#e6e8ec" } } } } });
+  }
+
+  initPays(); try{ initChart(); }catch(e){ console.warn("Chart.js indisponible :", e); } setInterval(poll,1000);
+</script>
+</body>
+</html>

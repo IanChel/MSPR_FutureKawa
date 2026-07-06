@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Tableau de bord (Admin Pays)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+
+  <aside class="fk-side">
+    <div class="fk-side__brand">
+      <div class="fk-logo">
+        <span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span>
+        <span class="fk-logo__name">Future<em>Kawa</em></span>
+      </div>
+    </div>
+
+    <nav class="fk-nav">
+      <a href="#" class="is-active"><span class="ic">▦</span> Tableau de bord</a>
+      <a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#"><span class="ic">◭</span> Alertes</a>
+      <a href="#"><span class="ic">∿</span> Mesures</a>
+      <a href="#"><span class="ic">▥</span> Entrepôts</a>
+      <a href="#"><span class="ic">⊡</span> Capteurs</a>
+    </nav>
+
+    <div class="fk-side__group">
+      <div class="fk-side__label">Administration pays</div>
+      <nav class="fk-nav">
+        <a href="#"><span class="ic">◉</span> Utilisateurs</a>
+        <a href="#"><span class="ic">❑</span> Audit</a>
+      </nav>
+    </div>
+
+    <div class="fk-side__foot">v1.0 · Équateur</div>
+  </aside>
+
+  <div class="fk-main">
+    <header class="fk-top">
+      <span class="fk-top__title">Périmètre</span>
+      <!-- Pays figé : un admin pays ne voit que le sien -->
+      <span class="fk-badge ok" style="font-size:13px">🟢 Équateur</span>
+      <div class="fk-top__spacer"></div>
+      <div class="fk-user">
+        <div class="fk-avatar">AE</div>
+        <div class="fk-user__meta">
+          <div class="fk-user__name">Admin Équateur</div>
+          <div class="fk-user__role">Administrateur · Équateur</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="fk-content">
+      <div class="fk-page-head">
+        <h1>Équateur — supervision</h1>
+        <p>Vos exploitations, entrepôts et conditions de stockage en temps réel.</p>
+      </div>
+
+      <section class="fk-kpis">
+        <div class="fk-kpi fk-kpi--accent">
+          <span class="fk-kpi__label">Lots en stock</span>
+          <span class="fk-kpi__value">94</span>
+          <span class="fk-kpi__sub">3 fincas actives</span>
+        </div>
+        <div class="fk-kpi">
+          <span class="fk-kpi__label">Alertes actives</span>
+          <span class="fk-kpi__value">0</span>
+          <span class="fk-kpi__sub up">Aucune anomalie</span>
+        </div>
+        <div class="fk-kpi">
+          <span class="fk-kpi__label">Capteurs actifs</span>
+          <span class="fk-kpi__value">6<span style="font-size:16px;color:var(--encre-doux)">/6</span></span>
+          <span class="fk-kpi__sub up">Tous en ligne</span>
+        </div>
+        <div class="fk-kpi fk-kpi--accent">
+          <span class="fk-kpi__label">Condition moyenne</span>
+          <span class="fk-kpi__value" style="font-size:22px">31.1°C</span>
+          <span class="fk-kpi__sub">cible 31 °C / 60 %</span>
+        </div>
+      </section>
+
+      <section class="fk-grid-2">
+        <div class="fk-card">
+          <div class="fk-card__head">
+            <h3>Conditions — Finca El Oro</h3>
+            <div class="fk-top__spacer"></div>
+            <span class="fk-badge ok">Conforme</span>
+          </div>
+          <div class="fk-card__body">
+            <div class="fk-row" style="gap:22px; margin-bottom:14px">
+              <div class="fk-readout"><b>31.0</b><span>°C</span></div>
+              <div class="fk-readout"><b>59.8</b><span>%HR</span></div>
+            </div>
+            <svg viewBox="0 0 640 200" width="100%" height="200">
+              <rect x="0" y="74" width="640" height="56" fill="#E7F0DF"/>
+              <line x1="0" y1="74" x2="640" y2="74" stroke="#BBD0A8" stroke-dasharray="4 4"/>
+              <line x1="0" y1="130" x2="640" y2="130" stroke="#BBD0A8" stroke-dasharray="4 4"/>
+              <path d="M0,108 L90,100 L180,112 L270,98 L360,106 L450,102 L540,110 L640,100" fill="none" stroke="var(--vert-profond)" stroke-width="2.5"/>
+            </svg>
+            <div class="fk-row fk-muted" style="font-size:12px; justify-content:space-between; margin-top:6px">
+              <span>16 juin</span><span>18 juin</span><span>20 juin</span><span>Aujourd'hui</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fk-card">
+          <div class="fk-card__head"><h3>Stock par entrepôt</h3></div>
+          <div class="fk-card__body">
+            <table class="fk-table">
+              <tbody>
+                <tr><td>Finca El Oro — A</td><td class="fk-mono">38</td><td><span class="fk-badge ok">Conforme</span></td></tr>
+                <tr><td>Finca El Oro — B</td><td class="fk-mono">21</td><td><span class="fk-badge ok">Conforme</span></td></tr>
+                <tr><td>Finca Manabí</td><td class="fk-mono">35</td><td><span class="fk-badge ok">Conforme</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="fk-card">
+        <div class="fk-card__head"><h3>Activité récente</h3></div>
+        <div class="fk-card__body" style="padding-top:6px; padding-bottom:6px">
+          <div class="fk-alert-row">
+            <div class="fk-alert-row__icon" style="background:var(--ok-bg); color:var(--ok)">✓</div>
+            <div class="fk-alert-row__main">
+              <div class="fk-alert-row__title">Lot LOT-EC-2026-031 enregistré</div>
+              <div class="fk-alert-row__meta">Finca Manabí · il y a 2 h</div>
+            </div>
+          </div>
+          <div class="fk-alert-row">
+            <div class="fk-alert-row__icon" style="background:var(--ok-bg); color:var(--ok)">✓</div>
+            <div class="fk-alert-row__main">
+              <div class="fk-alert-row__title">Alerte conditions résolue automatiquement (durée 4 min)</div>
+              <div class="fk-alert-row__meta">Finca El Oro — A · hier 15:38</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>

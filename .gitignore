@@ -1,0 +1,45 @@
+# --- Build Java / Maven ---
+target/
+*.class
+*.jar
+*.war
+!**/src/main/**/*.jar
+
+# --- Python (simulateur web) ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# --- Secrets / configuration locale ---
+.env
+*.env
+!.env.example
+application-local.yml
+application-local.properties
+
+# --- Logs ---
+*.log
+logs/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Docker (volumes locaux éventuels) ---
+infra/volumes/
+
+# --- Divers ---
+*.tmp

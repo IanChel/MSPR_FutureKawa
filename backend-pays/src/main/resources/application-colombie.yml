@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/futurekawa   # port du Postgres Colombie
+  flyway:
+    locations: classpath:db/migration,classpath:db/seed/colombie
+
+app:
+  pays: COLOMBIE
+  alerting:
+    email-destinataire: responsable-colombie@futurekawa.example
+  alerte:
+    mesures-consecutives-ouverture: 3
+    mesures-consecutives-resolution: 3
+    rappel-intervalle-minutes: 1
+  seuils:
+    temperature-ideale: 26
+    humidite-ideale: 80
+    tolerance-temperature: 3
+    tolerance-humidite: 2
+  mqtt:
+    broker-url: tcp://localhost:1883
+    topic-mesures: futurekawa/colombie/+/mesures
+    client-id: backend-pays-colombie

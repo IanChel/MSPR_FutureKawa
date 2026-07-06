@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { display: grid; grid-template-columns: 1.05fr 1fr; min-height: 100vh; }
+  @media (max-width: 880px) { body { grid-template-columns: 1fr; } .brand { display: none; } }
+
+  /* Panneau de marque (café vert + courbes d'altitude) */
+  .brand {
+    position: relative; overflow: hidden;
+    background: var(--vert-profond); color: #EAF0E4;
+    padding: 48px; display: flex; flex-direction: column;
+  }
+  .brand__contours { position: absolute; inset: 0; opacity: .14; }
+  .brand__top { position: relative; z-index: 2; }
+  .brand__body { position: relative; z-index: 2; margin-top: auto; }
+  .brand__title {
+    font-family: var(--display); font-size: 40px; line-height: 1.1; font-weight: 600;
+    max-width: 13ch; margin-bottom: 16px;
+  }
+  .brand__title em { font-style: italic; color: var(--sauge); }
+  .brand__sub { max-width: 38ch; color: #B9C7B0; font-size: 15px; }
+  .brand__pays { display: flex; gap: 8px; margin-top: 26px; }
+  .brand__pays span {
+    font-size: 12px; font-family: var(--mono); letter-spacing: .04em;
+    border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 5px 12px; color: #CBD7C2;
+  }
+  .brand__foot { position: relative; z-index: 2; margin-top: 34px; font-size: 12px; color: #7E9079; }
+
+  /* Formulaire */
+  .auth { display: grid; place-items: center; padding: 40px; }
+  .auth__box { width: 100%; max-width: 380px; }
+  .auth__eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--sauge); font-weight: 600; }
+  .auth__h { font-family: var(--display); font-size: 28px; margin: 6px 0 4px; }
+  .auth__p { color: var(--encre-doux); font-size: 14px; margin: 0 0 26px; }
+  .auth__demo { margin-top: 22px; padding: 12px 14px; background: var(--parchemin); border: 1px solid var(--grain); border-radius: var(--r-s); font-size: 12px; color: var(--encre-doux); }
+  .auth__demo b { color: var(--encre); }
+  .pw-wrap { position: relative; }
+  .pw-wrap button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: var(--encre-doux); font-size: 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+  <!-- Panneau de marque -->
+  <aside class="brand">
+    <!-- Courbes d'altitude (évoque les plantations en montagne) -->
+    <svg class="brand__contours" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="#8A9A5B" stroke-width="1.2">
+        <path d="M-50 120 C 150 60, 350 200, 650 110"/>
+        <path d="M-50 190 C 150 130, 350 270, 650 180"/>
+        <path d="M-50 260 C 150 200, 350 340, 650 250"/>
+        <path d="M-50 340 C 180 270, 380 420, 650 320"/>
+        <path d="M-50 430 C 180 360, 380 520, 650 410"/>
+        <path d="M-50 530 C 180 450, 380 620, 650 510"/>
+        <path d="M-50 640 C 180 560, 380 720, 650 620"/>
+        <path d="M-50 740 C 180 660, 380 820, 650 720"/>
+      </g>
+    </svg>
+
+    <div class="brand__top">
+      <div class="fk-logo">
+        <span class="fk-logo__mark" aria-hidden="true">
+          <!-- grain de café vert -->
+          <svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg>
+        </span>
+        <span class="fk-logo__name" style="color:#fff">Future<em>Kawa</em></span>
+      </div>
+    </div>
+
+    <div class="brand__body">
+      <h1 class="brand__title">Le café vert, <em>sous contrôle</em>.</h1>
+      <p class="brand__sub">Supervision des stocks et des conditions de stockage, du grain à l'expédition, sur l'ensemble de vos sites.</p>
+      <div class="brand__pays">
+        <span>BRÉSIL</span><span>ÉQUATEUR</span><span>COLOMBIE</span>
+      </div>
+    </div>
+
+    <div class="brand__foot">Plateforme de supervision · Direction des Opérations &amp; Qualité</div>
+  </aside>
+
+  <!-- Formulaire de connexion -->
+  <main class="auth">
+    <div class="auth__box">
+      <div class="auth__eyebrow">Espace sécurisé</div>
+      <h2 class="auth__h">Connexion</h2>
+      <p class="auth__p">Accédez à votre tableau de bord selon votre périmètre.</p>
+
+      <!-- Exemple d'erreur (décommenter pour voir l'état d'échec)
+      <div class="fk-alert crit" style="margin-bottom:18px">Identifiants invalides. Vérifiez votre adresse e-mail et votre mot de passe.</div>
+      -->
+
+      <form onsubmit="return false">
+        <div class="fk-field">
+          <label for="email">Adresse e-mail</label>
+          <input class="fk-input" id="email" type="email" placeholder="prenom.nom@futurekawa.example" value="superadmin@futurekawa.example">
+        </div>
+        <div class="fk-field">
+          <label for="pw">Mot de passe</label>
+          <div class="pw-wrap">
+            <input class="fk-input" id="pw" type="password" placeholder="••••••••" value="Admin123!">
+            <button type="button">Afficher</button>
+          </div>
+        </div>
+        <button class="fk-btn fk-btn--primary" style="width:100%; justify-content:center; padding:12px;">Se connecter</button>
+      </form>
+
+      <div class="auth__demo">
+        <b>Comptes de démonstration</b> — mot de passe <span class="fk-mono">Admin123!</span><br>
+        superadmin · admin-bresil · admin-equateur · admin-colombie
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

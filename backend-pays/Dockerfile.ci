@@ -1,0 +1,14 @@
+# ============================================================
+#  backend-pays — image Docker « runtime » pour la CI.
+#  Construite À PARTIR DU JAR déjà packagé par l'étape « Packaging »
+#  du pipeline Jenkins (aucune recompilation Maven => build en
+#  quelques secondes). Le Dockerfile multi-étapes (./Dockerfile)
+#  reste utilisé par docker-compose, qui lui part des sources.
+# ============================================================
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+# Le JAR exécutable Spring Boot produit par `mvnw package`
+COPY target/*.jar app.jar
+# Le port réel est défini par le profil Spring (8080/8081/8082)
+EXPOSE 8080 8081 8082
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Pays</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a>
+      <a href="#" class="is-active"><span class="ic">◷</span> Pays</a>
+      <a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#"><span class="ic">◭</span> Alertes</a>
+      <a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav">
+      <a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#"><span class="ic">⚙</span> Paramètres</a>
+    </nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Réseau</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Pays du réseau</h1><p>Chaque pays est un site déployé indépendamment. Les seuils sont propres à chaque terroir.</p></div>
+
+      <section class="fk-kpis" style="grid-template-columns:repeat(3,1fr)">
+        <div class="fk-card"><div class="fk-card__body">
+          <div class="fk-row" style="justify-content:space-between"><b style="font-size:17px">Brésil</b><span class="fk-badge ok">Disponible</span></div>
+          <div class="fk-kv" style="grid-template-columns:120px 1fr; margin-top:14px; gap:8px 14px">
+            <dt>Cible</dt><dd class="fk-mono">29 °C · 55 %HR</dd>
+            <dt>Tolérance</dt><dd class="fk-mono">± 3 °C · ± 2 %</dd>
+            <dt>Lots</dt><dd class="fk-mono">128</dd>
+            <dt>Capteurs</dt><dd class="fk-mono">6/6 en ligne</dd>
+            <dt>Alertes</dt><dd><span class="fk-badge crit">2 actives</span></dd>
+          </div></div></div>
+        <div class="fk-card"><div class="fk-card__body">
+          <div class="fk-row" style="justify-content:space-between"><b style="font-size:17px">Équateur</b><span class="fk-badge ok">Disponible</span></div>
+          <div class="fk-kv" style="grid-template-columns:120px 1fr; margin-top:14px; gap:8px 14px">
+            <dt>Cible</dt><dd class="fk-mono">31 °C · 60 %HR</dd>
+            <dt>Tolérance</dt><dd class="fk-mono">± 3 °C · ± 2 %</dd>
+            <dt>Lots</dt><dd class="fk-mono">94</dd>
+            <dt>Capteurs</dt><dd class="fk-mono">6/6 en ligne</dd>
+            <dt>Alertes</dt><dd><span class="fk-badge muted">0</span></dd>
+          </div></div></div>
+        <div class="fk-card"><div class="fk-card__body">
+          <div class="fk-row" style="justify-content:space-between"><b style="font-size:17px">Colombie</b><span class="fk-badge ok">Disponible</span></div>
+          <div class="fk-kv" style="grid-template-columns:120px 1fr; margin-top:14px; gap:8px 14px">
+            <dt>Cible</dt><dd class="fk-mono">26 °C · 80 %HR</dd>
+            <dt>Tolérance</dt><dd class="fk-mono">± 3 °C · ± 2 %</dd>
+            <dt>Lots</dt><dd class="fk-mono">90</dd>
+            <dt>Capteurs</dt><dd class="fk-mono">5/6 en ligne</dd>
+            <dt>Alertes</dt><dd><span class="fk-badge warn">2 actives</span></dd>
+          </div></div></div>
+      </section>
+
+      <div class="fk-alert ok" style="margin-top:6px">ℹ️ Les pays ne se créent pas depuis l'interface : ajouter un pays consiste à déployer une nouvelle instance du back-end (architecture multi-instances).</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

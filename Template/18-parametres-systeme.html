@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureKawa — Paramètres système</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#" class="is-active"><span class="ic">⚙</span> Paramètres</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Administration</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content" style="max-width:880px">
+      <div class="fk-page-head"><h1>Paramètres système</h1><p>Seuils de conformité et comportement des alertes, par pays.</p></div>
+
+      <div class="fk-tabs">
+        <a href="#" class="is-active">Brésil</a><a href="#">Équateur</a><a href="#">Colombie</a>
+      </div>
+
+      <div class="fk-card" style="margin-bottom:18px">
+        <div class="fk-card__head"><h3>Seuils de conformité — Brésil</h3></div>
+        <div class="fk-card__body">
+          <div class="fk-form-2">
+            <div class="fk-field"><label>Température cible (°C)</label><input class="fk-input fk-mono" value="29"></div>
+            <div class="fk-field"><label>Tolérance température (± °C)</label><input class="fk-input fk-mono" value="3"></div>
+            <div class="fk-field"><label>Humidité cible (%)</label><input class="fk-input fk-mono" value="55"></div>
+            <div class="fk-field"><label>Tolérance humidité (± %)</label><input class="fk-input fk-mono" value="2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fk-card" style="margin-bottom:18px">
+        <div class="fk-card__head"><h3>Comportement des alertes</h3></div>
+        <div class="fk-card__body">
+          <div class="fk-form-2">
+            <div class="fk-field"><label>Mesures consécutives avant ouverture</label><input class="fk-input fk-mono" value="3"></div>
+            <div class="fk-field"><label>Mesures consécutives avant résolution</label><input class="fk-input fk-mono" value="3"></div>
+            <div class="fk-field"><label>Intervalle de rappel (minutes)</label><input class="fk-input fk-mono" value="30"></div>
+            <div class="fk-field"><label>Seuil de péremption (jours)</label><input class="fk-input fk-mono" value="365"></div>
+          </div>
+          <div class="fk-row" style="justify-content:space-between; margin-top:6px">
+            <div class="fk-stack"><b>Notifications par e-mail</b><span class="fk-muted" style="font-size:13px">Envoyer un e-mail au responsable du pays</span></div>
+            <label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="fk-row" style="justify-content:flex-end; gap:10px">
+        <button class="fk-btn fk-btn--ghost">Réinitialiser</button>
+        <button class="fk-btn fk-btn--primary">Enregistrer les modifications</button>
+      </div>
+
+      <div class="fk-alert ok" style="margin-top:18px">ℹ️ Aujourd'hui ces valeurs vivent dans les fichiers de configuration. Les rendre éditables nécessite un endpoint dédié (identifié comme évolution).</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+# =============================================================================
+#  FutureKawa — Dépendances pour la PREUVE LOCALE (Docker Desktop Kubernetes)
+# -----------------------------------------------------------------------------
+#  Fournit ce que le manifest principal attend "de l'extérieur" :
+#    - Secret  futurekawa-secrets  (user / password / jwt)
+#    - ConfigMap futurekawa-config (URLs JDBC -> Postgres interne au cluster)
+#    - Un PostgreSQL unique (4 bases : identite, futurekawa_br/ec/co)
+#
+#  ⚠️ USAGE LOCAL UNIQUEMENT (mots de passe en clair, stockage éphémère).
+#     En prod on utilise Azure Database for PostgreSQL (cf. k8s/futurekawa.yaml).
+#  Namespace fixé à futurekawa-test (le namespace de démonstration).
+# =============================================================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: futurekawa-secrets
+  namespace: futurekawa-test
+type: Opaque
+stringData:
+  db-user: futurekawa
+  db-password: futurekawa
+  jwt-secret: changez-moi-en-production-secret-de-32-caracteres-minimum
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: futurekawa-config
+  namespace: futurekawa-test
+data:
+  db-url-identite: jdbc:postgresql://fk-postgres:5432/identite
+  db-url-bresil:   jdbc:postgresql://fk-postgres:5432/futurekawa_br
+  db-url-equateur: jdbc:postgresql://fk-postgres:5432/futurekawa_ec
+  db-url-colombie: jdbc:postgresql://fk-postgres:5432/futurekawa_co
+
+---
+# Script d'init : crée les 4 bases au premier démarrage de Postgres
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-init
+  namespace: futurekawa-test
+data:
+  init.sql: |
+    CREATE DATABASE identite;
+    CREATE DATABASE futurekawa_br;
+    CREATE DATABASE futurekawa_ec;
+    CREATE DATABASE futurekawa_co;
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-postgres
+  namespace: futurekawa-test
+  labels:
+    app: fk-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fk-postgres
+  template:
+    metadata:
+      labels:
+        app: fk-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          env:
+            - name: POSTGRES_USER
+              value: futurekawa
+            - name: POSTGRES_PASSWORD
+              value: futurekawa
+            - name: POSTGRES_DB
+              value: futurekawa
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: init
+              mountPath: /docker-entrypoint-initdb.d
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "futurekawa"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: init
+          configMap:
+            name: pg-init
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-postgres
+  namespace: futurekawa-test
+spec:
+  selector:
+    app: fk-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP

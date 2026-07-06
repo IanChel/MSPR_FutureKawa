@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Alertes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#" class="is-active"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#"><span class="ic">⚙</span> Paramètres</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Vue consolidée</span><div class="fk-top__spacer"></div>
+      <div class="fk-pays"><button class="is-active">Tous</button><button>Brésil</button><button>Équateur</button><button>Colombie</button></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Alertes</h1><p>Incidents en cours sur l'ensemble du réseau.</p></div>
+      <div class="fk-tabs">
+        <a href="#" class="is-active">Actives (4)</a>
+        <a href="#">Acquittées (1)</a>
+        <a href="#">Résolues</a>
+      </div>
+      <div class="fk-toolbar">
+        <button class="fk-chip is-active">Tous types</button><button class="fk-chip">Conditions</button><button class="fk-chip">Péremption</button>
+        <div class="fk-top__spacer"></div>
+      </div>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Type</th><th>Description</th><th>Pays · lieu</th><th>Déclenchée</th><th>Notifs</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fk-badge crit">Péremption</span></td>
+              <td>Lot <span class="fk-mono">LOT-BR-2025-014</span> — 399 jours</td>
+              <td>Brésil · Entrepôt Sud</td>
+              <td class="fk-muted" style="font-size:13px">18 juin</td>
+              <td class="fk-mono">0</td>
+              <td><div class="fk-row"><button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button><button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button></div></td>
+            </tr>
+            <tr>
+              <td><span class="fk-badge warn">Conditions</span></td>
+              <td>36,0 °C / 42,6 % (attendu 26–32 °C)</td>
+              <td>Brésil · Entrepôt 1</td>
+              <td class="fk-muted" style="font-size:13px">11:30</td>
+              <td class="fk-mono">8</td>
+              <td><div class="fk-row"><button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button><button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button></div></td>
+            </tr>
+            <tr>
+              <td><span class="fk-badge warn">Conditions</span></td>
+              <td>Humidité 71 % (attendu 78–82 %)</td>
+              <td>Colombie · Finca La Esperanza</td>
+              <td class="fk-muted" style="font-size:13px">09:14</td>
+              <td class="fk-mono">3</td>
+              <td><div class="fk-row"><button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button><button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button></div></td>
+            </tr>
+            <tr>
+              <td><span class="fk-badge crit">Péremption</span></td>
+              <td>Lot <span class="fk-mono">LOT-CO-2025-007</span> — 372 jours</td>
+              <td>Colombie · Finca El Paraíso</td>
+              <td class="fk-muted" style="font-size:13px">20 juin</td>
+              <td class="fk-mono">0</td>
+              <td><div class="fk-row"><button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button><button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

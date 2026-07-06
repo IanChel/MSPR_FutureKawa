@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Historique des connexions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#" class="is-active"><span class="ic">⎆</span> Connexions</a><a href="#"><span class="ic">⚙</span> Paramètres</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Administration</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Historique des connexions</h1><p>Tentatives d'accès à la plateforme, réussies comme échouées.</p></div>
+      <section class="fk-kpis" style="grid-template-columns:repeat(3,1fr)">
+        <div class="fk-kpi fk-kpi--accent"><span class="fk-kpi__label">Connexions (24 h)</span><span class="fk-kpi__value">23</span><span class="fk-kpi__sub up">21 réussies</span></div>
+        <div class="fk-kpi fk-kpi--alert"><span class="fk-kpi__label">Échecs (24 h)</span><span class="fk-kpi__value">2</span><span class="fk-kpi__sub warn">mots de passe erronés</span></div>
+        <div class="fk-kpi"><span class="fk-kpi__label">Comptes actifs</span><span class="fk-kpi__value">5</span><span class="fk-kpi__sub">sur 5</span></div>
+      </section>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Horodatage</th><th>Compte</th><th>Adresse IP</th><th>Résultat</th></tr></thead>
+          <tbody>
+            <tr><td class="fk-mono" style="font-size:12px">22 juin · 11:48:23</td><td>simulateur@futurekawa.example</td><td class="fk-mono">127.0.0.1</td><td><span class="fk-badge ok">Réussie</span></td></tr>
+            <tr><td class="fk-mono" style="font-size:12px">22 juin · 11:48:19</td><td>admin-equateur@futurekawa.example</td><td class="fk-mono">192.168.1.24</td><td><span class="fk-badge ok">Réussie</span></td></tr>
+            <tr><td class="fk-mono" style="font-size:12px">22 juin · 11:32:02</td><td>admin-bresil@futurekawa.example</td><td class="fk-mono">192.168.1.31</td><td><span class="fk-badge crit">Échec</span></td></tr>
+            <tr><td class="fk-mono" style="font-size:12px">22 juin · 09:30:23</td><td>operateur-br@futurekawa.example</td><td class="fk-mono">192.168.1.52</td><td><span class="fk-badge ok">Réussie</span></td></tr>
+            <tr><td class="fk-mono" style="font-size:12px">22 juin · 08:14:55</td><td>inconnu@externe.com</td><td class="fk-mono">203.0.113.7</td><td><span class="fk-badge crit">Échec</span></td></tr>
+          </tbody>
+        </table>
+        <div class="fk-pagination"><button>‹</button><button class="is-active">1</button><button>2</button><button>›</button></div>
+      </div>
+      <div class="fk-alert ok" style="margin-top:18px">ℹ️ Cet écran nécessite un endpoint dédié (journalisation des connexions) — identifié dans la conception comme évolution.</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

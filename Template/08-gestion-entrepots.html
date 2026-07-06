@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Entrepôts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+      <a href="#" class="is-active"><span class="ic">▥</span> Entrepôts</a><a href="#"><span class="ic">⊡</span> Capteurs</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration pays</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">❑</span> Audit</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Brésil</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Périmètre</span><span class="fk-badge ok" style="font-size:13px">🟢 Brésil</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">AB</div><div class="fk-user__meta"><div class="fk-user__name">Admin Brésil</div><div class="fk-user__role">Administrateur · Brésil</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Entrepôts</h1><p>Conditions actuelles par lieu de stockage. Les seuils suivent la cible du Brésil (29 °C / 55 %).</p></div>
+      <div class="fk-toolbar">
+        <select class="fk-select" style="width:auto"><option>Toutes les exploitations</option><option>Fazenda Santa Clara</option><option>Fazenda Boa Vista</option></select>
+        <div class="fk-top__spacer"></div>
+      </div>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Entrepôt</th><th>Exploitation</th><th>Lots</th><th>Température</th><th>Humidité</th><th>Capteurs</th><th>État</th></tr></thead>
+          <tbody>
+            <tr><td><b>Entrepôt Sud</b></td><td>Fazenda Santa Clara</td><td class="fk-mono">52</td>
+              <td><span class="fk-readout"><b style="font-size:15px">29.4</b><span>°C</span></span></td>
+              <td><span class="fk-readout"><b style="font-size:15px">55.2</b><span>%</span></span></td>
+              <td class="fk-mono">2/2</td><td><span class="fk-badge ok">Conforme</span></td></tr>
+            <tr><td><b>Entrepôt 1</b></td><td>Fazenda Santa Clara</td><td class="fk-mono">41</td>
+              <td><span class="fk-readout is-out"><b style="font-size:15px">36.0</b><span>°C</span></span></td>
+              <td><span class="fk-readout is-out"><b style="font-size:15px">42.6</b><span>%</span></span></td>
+              <td class="fk-mono">2/2</td><td><span class="fk-badge crit">Hors plage</span></td></tr>
+            <tr><td><b>Entrepôt 3</b></td><td>Fazenda Boa Vista</td><td class="fk-mono">35</td>
+              <td><span class="fk-readout"><b style="font-size:15px">28.7</b><span>°C</span></span></td>
+              <td><span class="fk-readout"><b style="font-size:15px">56.0</b><span>%</span></span></td>
+              <td class="fk-mono">2/2</td><td><span class="fk-badge ok">Conforme</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Capteurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+      <a href="#"><span class="ic">▥</span> Entrepôts</a><a href="#" class="is-active"><span class="ic">⊡</span> Capteurs</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration pays</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">❑</span> Audit</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Brésil</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Périmètre</span><span class="fk-badge ok" style="font-size:13px">🟢 Brésil</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">AB</div><div class="fk-user__meta"><div class="fk-user__name">Admin Brésil</div><div class="fk-user__role">Administrateur · Brésil</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Capteurs</h1><p>Un capteur est « actif » s'il a transmis une mesure dans les 10 dernières minutes.</p></div>
+      <div class="fk-toolbar">
+        <button class="fk-chip is-active">Tous</button><button class="fk-chip">Actifs</button><button class="fk-chip">Silencieux</button>
+        <div class="fk-top__spacer"></div>
+      </div>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Capteur</th><th>Entrepôt</th><th>Dernière mesure</th><th>Valeurs</th><th>État</th></tr></thead>
+          <tbody>
+            <tr><td class="fk-mono">capteur-br-sud-01</td><td>Entrepôt Sud</td><td class="fk-muted" style="font-size:13px">il y a 12 s</td>
+              <td><span class="fk-readout"><b style="font-size:14px">29.4</b><span>°C</span></span> · <span class="fk-readout"><b style="font-size:14px">55.2</b><span>%</span></span></td>
+              <td><span class="fk-badge ok">Actif</span></td></tr>
+            <tr><td class="fk-mono">capteur-br-sud-02</td><td>Entrepôt Sud</td><td class="fk-muted" style="font-size:13px">il y a 9 s</td>
+              <td><span class="fk-readout"><b style="font-size:14px">29.1</b><span>°C</span></span> · <span class="fk-readout"><b style="font-size:14px">54.8</b><span>%</span></span></td>
+              <td><span class="fk-badge ok">Actif</span></td></tr>
+            <tr><td class="fk-mono">capteur-br-e1-01</td><td>Entrepôt 1</td><td class="fk-muted" style="font-size:13px">il y a 7 s</td>
+              <td><span class="fk-readout is-out"><b style="font-size:14px">36.0</b><span>°C</span></span> · <span class="fk-readout is-out"><b style="font-size:14px">42.6</b><span>%</span></span></td>
+              <td><span class="fk-badge ok">Actif</span></td></tr>
+            <tr><td class="fk-mono">capteur-br-e3-02</td><td>Entrepôt 3</td><td class="fk-muted" style="font-size:13px">il y a 47 min</td>
+              <td class="fk-muted">—</td>
+              <td><span class="fk-badge crit">Silencieux</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

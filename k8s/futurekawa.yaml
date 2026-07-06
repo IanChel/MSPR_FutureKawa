@@ -1,0 +1,420 @@
+# =============================================================================
+#  FutureKawa — Manifeste Kubernetes (modèle envsubst)
+# -----------------------------------------------------------------------------
+#  Variables substituées automatiquement par le pipeline Jenkins :
+#    ${NAMESPACE}   — futurekawa-test  |  futurekawa-prod
+#    ${IMAGE_TAG}   — numéro de build Jenkins ($BUILD_NUMBER)
+#    ${DOCKER_USER} — compte Docker Hub (ex. tarekize)
+#
+#  ── Prérequis (à exécuter UNE SEULE FOIS par environnement) ──────────────────
+#
+#  1. Créer le namespace :
+#       kubectl create namespace futurekawa-test
+#       kubectl create namespace futurekawa-prod
+#
+#  2. Créer le Secret (credentials BD + JWT) :
+#       kubectl create secret generic futurekawa-secrets -n <namespace> \
+#         --from-literal=db-user='futurekawa' \
+#         --from-literal=db-password='<MOT_DE_PASSE_FORT>' \
+#         --from-literal=jwt-secret='<SECRET_MIN_32_CHARS>'
+#
+#  3. Créer le ConfigMap (URLs Azure Database for PostgreSQL) :
+#       kubectl create configmap futurekawa-config -n <namespace> \
+#         --from-literal=db-url-identite='jdbc:postgresql://<serveur>.postgres.database.azure.com:5432/identite?sslmode=require' \
+#         --from-literal=db-url-bresil='jdbc:postgresql://<serveur>.postgres.database.azure.com:5432/futurekawa?sslmode=require' \
+#         --from-literal=db-url-equateur='jdbc:postgresql://<serveur>.postgres.database.azure.com:5432/futurekawa?sslmode=require' \
+#         --from-literal=db-url-colombie='jdbc:postgresql://<serveur>.postgres.database.azure.com:5432/futurekawa?sslmode=require'
+#
+#  Application manuelle (hors pipeline) :
+#    NAMESPACE=futurekawa-test IMAGE_TAG=42 DOCKER_USER=tarekize \
+#      envsubst '$NAMESPACE $IMAGE_TAG $DOCKER_USER' < k8s/futurekawa.yaml | kubectl apply -f -
+# =============================================================================
+
+# ── Namespace ──────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+
+---
+# ══════════════════════════════════════════════════════════════════════════════
+#  BROKER MQTT — Eclipse Mosquitto
+# ══════════════════════════════════════════════════════════════════════════════
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  namespace: ${NAMESPACE}
+data:
+  mosquitto.conf: |
+    listener 1883
+    allow_anonymous true
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-mosquitto
+  namespace: ${NAMESPACE}
+  labels:
+    app: fk-mosquitto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fk-mosquitto
+  template:
+    metadata:
+      labels:
+        app: fk-mosquitto
+    spec:
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:2
+          ports:
+            - containerPort: 1883
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+      volumes:
+        - name: config
+          configMap:
+            name: mosquitto-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-mosquitto
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: fk-mosquitto
+  ports:
+    - port: 1883
+      targetPort: 1883
+  type: ClusterIP
+
+---
+# ══════════════════════════════════════════════════════════════════════════════
+#  BACK-END CENTRAL  (port 8090)
+# ══════════════════════════════════════════════════════════════════════════════
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-central
+  namespace: ${NAMESPACE}
+  labels:
+    app: fk-central
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fk-central
+  template:
+    metadata:
+      labels:
+        app: fk-central
+    spec:
+      containers:
+        - name: fk-central
+          image: ${DOCKER_USER}/futurekawa-backend-central:${IMAGE_TAG}
+          ports:
+            - containerPort: 8090
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: IDENTITE_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: futurekawa-config
+                  key: db-url-identite
+            - name: IDENTITE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-user
+            - name: IDENTITE_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: jwt-secret
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8090
+            initialDelaySeconds: 45
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8090
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-central
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: fk-central
+  ports:
+    - port: 8090
+      targetPort: 8090
+  type: LoadBalancer
+
+---
+# ══════════════════════════════════════════════════════════════════════════════
+#  BACK-END PAYS — BRÉSIL  (profil: dev, port 8080)
+# ══════════════════════════════════════════════════════════════════════════════
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-pays-br
+  namespace: ${NAMESPACE}
+  labels:
+    app: fk-pays-br
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fk-pays-br
+  template:
+    metadata:
+      labels:
+        app: fk-pays-br
+    spec:
+      containers:
+        - name: fk-pays
+          image: ${DOCKER_USER}/futurekawa-backend-pays:${IMAGE_TAG}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: futurekawa-config
+                  key: db-url-bresil
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-password
+            - name: APP_MQTT_BROKERURL
+              value: "tcp://fk-mosquitto:1883"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-pays-br
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: fk-pays-br
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+# ══════════════════════════════════════════════════════════════════════════════
+#  BACK-END PAYS — ÉQUATEUR  (profil: dev,equateur, port 8081)
+# ══════════════════════════════════════════════════════════════════════════════
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-pays-ec
+  namespace: ${NAMESPACE}
+  labels:
+    app: fk-pays-ec
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fk-pays-ec
+  template:
+    metadata:
+      labels:
+        app: fk-pays-ec
+    spec:
+      containers:
+        - name: fk-pays
+          image: ${DOCKER_USER}/futurekawa-backend-pays:${IMAGE_TAG}
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev,equateur"
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: futurekawa-config
+                  key: db-url-equateur
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-password
+            - name: APP_MQTT_BROKERURL
+              value: "tcp://fk-mosquitto:1883"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 45
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-pays-ec
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: fk-pays-ec
+  ports:
+    - port: 8081
+      targetPort: 8081
+  type: ClusterIP
+
+---
+# ══════════════════════════════════════════════════════════════════════════════
+#  BACK-END PAYS — COLOMBIE  (profil: dev,colombie, port 8082)
+# ══════════════════════════════════════════════════════════════════════════════
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fk-pays-co
+  namespace: ${NAMESPACE}
+  labels:
+    app: fk-pays-co
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fk-pays-co
+  template:
+    metadata:
+      labels:
+        app: fk-pays-co
+    spec:
+      containers:
+        - name: fk-pays
+          image: ${DOCKER_USER}/futurekawa-backend-pays:${IMAGE_TAG}
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev,colombie"
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: futurekawa-config
+                  key: db-url-colombie
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: futurekawa-secrets
+                  key: db-password
+            - name: APP_MQTT_BROKERURL
+              value: "tcp://fk-mosquitto:1883"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8082
+            initialDelaySeconds: 45
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8082
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fk-pays-co
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: fk-pays-co
+  ports:
+    - port: 8082
+      targetPort: 8082
+  type: ClusterIP

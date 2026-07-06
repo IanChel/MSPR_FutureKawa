@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Tableau de bord (Super Admin)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="fk-side">
+    <div class="fk-side__brand">
+      <div class="fk-logo">
+        <span class="fk-logo__mark" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg>
+        </span>
+        <span class="fk-logo__name">Future<em>Kawa</em></span>
+      </div>
+    </div>
+
+    <nav class="fk-nav">
+      <a href="#" class="is-active"><span class="ic">▦</span> Tableau de bord</a>
+      <a href="#"><span class="ic">◷</span> Pays</a>
+      <a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#"><span class="ic">◭</span> Alertes</a>
+      <a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+
+    <div class="fk-side__group">
+      <div class="fk-side__label">Administration</div>
+      <nav class="fk-nav">
+        <a href="#"><span class="ic">◉</span> Utilisateurs</a>
+        <a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a>
+        <a href="#"><span class="ic">❑</span> Audit</a>
+        <a href="#"><span class="ic">⚙</span> Paramètres</a>
+      </nav>
+    </div>
+
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="fk-main">
+
+    <!-- Topbar -->
+    <header class="fk-top">
+      <span class="fk-top__title">Vue consolidée</span>
+      <div class="fk-top__spacer"></div>
+
+      <div class="fk-pays" role="group" aria-label="Pays">
+        <button class="is-active">Tous</button>
+        <button>Brésil</button>
+        <button>Équateur</button>
+        <button>Colombie</button>
+      </div>
+
+      <div class="fk-user">
+        <div class="fk-avatar">SA</div>
+        <div class="fk-user__meta">
+          <div class="fk-user__name">Super Admin</div>
+          <div class="fk-user__role">Siège · tous pays</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenu -->
+    <main class="fk-content">
+      <div class="fk-page-head">
+        <h1>Vue consolidée — tous les pays</h1>
+        <p>État des stocks et des conditions de stockage au 22 juin 2026, 11:52.</p>
+      </div>
+
+      <!-- KPIs -->
+      <section class="fk-kpis">
+        <div class="fk-kpi fk-kpi--accent">
+          <span class="fk-kpi__label">Pays connectés</span>
+          <span class="fk-kpi__value">3<span style="font-size:16px;color:var(--encre-doux)">/3</span></span>
+          <span class="fk-kpi__sub up">Tous les sites répondent</span>
+        </div>
+        <div class="fk-kpi">
+          <span class="fk-kpi__label">Lots en stock</span>
+          <span class="fk-kpi__value">312</span>
+          <span class="fk-kpi__sub">dont 7 proches de péremption</span>
+        </div>
+        <div class="fk-kpi fk-kpi--alert">
+          <span class="fk-kpi__label">Alertes actives</span>
+          <span class="fk-kpi__value">4</span>
+          <span class="fk-kpi__sub warn">2 conditions · 2 péremptions</span>
+        </div>
+        <div class="fk-kpi">
+          <span class="fk-kpi__label">Capteurs actifs</span>
+          <span class="fk-kpi__value">17<span style="font-size:16px;color:var(--encre-doux)">/18</span></span>
+          <span class="fk-kpi__sub warn">1 capteur silencieux</span>
+        </div>
+      </section>
+
+      <!-- Graphes -->
+      <section class="fk-grid-2">
+        <!-- Courbe mesures -->
+        <div class="fk-card">
+          <div class="fk-card__head">
+            <h3>Évolution des conditions — Entrepôt Sud (Brésil)</h3>
+            <div class="fk-top__spacer"></div>
+            <span class="fk-badge muted">7 derniers jours</span>
+          </div>
+          <div class="fk-card__body">
+            <div class="fk-row" style="gap:22px; margin-bottom:14px">
+              <div class="fk-readout"><b>29.4</b><span>°C</span></div>
+              <div class="fk-readout"><b>55.2</b><span>%HR</span></div>
+              <span class="fk-badge ok">Dans la plage idéale</span>
+            </div>
+            <!-- Courbe SVG statique -->
+            <svg viewBox="0 0 640 200" width="100%" height="200" aria-label="Courbe de température">
+              <defs>
+                <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#8A9A5B" stop-opacity=".30"/>
+                  <stop offset="1" stop-color="#8A9A5B" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- bande idéale -->
+              <rect x="0" y="70" width="640" height="60" fill="#E7F0DF"/>
+              <line x1="0" y1="70" x2="640" y2="70" stroke="#BBD0A8" stroke-dasharray="4 4"/>
+              <line x1="0" y1="130" x2="640" y2="130" stroke="#BBD0A8" stroke-dasharray="4 4"/>
+              <!-- aire + ligne -->
+              <path d="M0,120 L90,108 L180,128 L270,96 L360,150 L450,104 L540,112 L640,90 L640,200 L0,200 Z" fill="url(#g)"/>
+              <path d="M0,120 L90,108 L180,128 L270,96 L360,150 L450,104 L540,112 L640,90" fill="none" stroke="var(--vert-profond)" stroke-width="2.5"/>
+              <!-- pic hors plage -->
+              <circle cx="360" cy="150" r="4.5" fill="var(--terre)"/>
+            </svg>
+            <div class="fk-row fk-muted" style="font-size:12px; justify-content:space-between; margin-top:6px">
+              <span>16 juin</span><span>18 juin</span><span>20 juin</span><span>Aujourd'hui</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donut alertes -->
+        <div class="fk-card">
+          <div class="fk-card__head"><h3>Répartition des alertes</h3></div>
+          <div class="fk-card__body">
+            <div class="fk-donut">
+              <div class="fk-donut__circle"></div>
+              <div class="fk-legend">
+                <div><i style="background:var(--terre)"></i> Péremption <b style="margin-left:auto" class="fk-mono">2</b></div>
+                <div><i style="background:var(--ambre)"></i> Conditions <b style="margin-left:auto" class="fk-mono">2</b></div>
+                <div><i style="background:var(--ok)"></i> Résolues (7 j) <b style="margin-left:auto" class="fk-mono">11</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tableau par pays -->
+      <section class="fk-card" style="margin-bottom:22px">
+        <div class="fk-card__head">
+          <h3>Synthèse par pays</h3>
+          <div class="fk-top__spacer"></div>
+          <button class="fk-btn fk-btn--ghost fk-btn--sm">Exporter</button>
+        </div>
+        <table class="fk-table">
+          <thead>
+            <tr><th>Pays</th><th>Lots</th><th>Alertes actives</th><th>Capteurs</th><th>Température moy.</th><th>Statut</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Brésil</b></td>
+              <td class="fk-mono">128</td>
+              <td><span class="fk-badge crit">2</span></td>
+              <td class="fk-mono">6/6</td>
+              <td><span class="fk-readout"><b style="font-size:15px">29.4</b><span>°C</span></span></td>
+              <td><span class="fk-badge ok">Disponible</span></td>
+            </tr>
+            <tr>
+              <td><b>Équateur</b></td>
+              <td class="fk-mono">94</td>
+              <td><span class="fk-badge muted">0</span></td>
+              <td class="fk-mono">6/6</td>
+              <td><span class="fk-readout"><b style="font-size:15px">31.1</b><span>°C</span></span></td>
+              <td><span class="fk-badge ok">Disponible</span></td>
+            </tr>
+            <tr>
+              <td><b>Colombie</b></td>
+              <td class="fk-mono">90</td>
+              <td><span class="fk-badge warn">2</span></td>
+              <td class="fk-mono">5/6</td>
+              <td><span class="fk-readout"><b style="font-size:15px">26.3</b><span>°C</span></span></td>
+              <td><span class="fk-badge ok">Disponible</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Alertes récentes -->
+      <section class="fk-card">
+        <div class="fk-card__head">
+          <h3>Alertes à traiter</h3>
+          <div class="fk-top__spacer"></div>
+          <a href="#" class="fk-badge info" style="text-decoration:none">Voir tout</a>
+        </div>
+        <div class="fk-card__body" style="padding-top:6px; padding-bottom:6px">
+
+          <div class="fk-alert-row">
+            <div class="fk-alert-row__icon crit">▲</div>
+            <div class="fk-alert-row__main">
+              <div class="fk-alert-row__title">Lot LOT-BR-2025-014 périmé — 399 jours de stockage</div>
+              <div class="fk-alert-row__meta">Brésil · Entrepôt Sud · depuis le 18 juin</div>
+            </div>
+            <div class="fk-alert-row__actions">
+              <button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button>
+              <button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button>
+            </div>
+          </div>
+
+          <div class="fk-alert-row">
+            <div class="fk-alert-row__icon warn">∿</div>
+            <div class="fk-alert-row__main">
+              <div class="fk-alert-row__title">Conditions hors plage — 36,0 °C / 42,6 % (attendu 26–32 °C)</div>
+              <div class="fk-alert-row__meta">Brésil · Entrepôt 1 · déclenchée à 11:30 · 8 notifications</div>
+            </div>
+            <div class="fk-alert-row__actions">
+              <button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button>
+              <button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button>
+            </div>
+          </div>
+
+          <div class="fk-alert-row">
+            <div class="fk-alert-row__icon warn">∿</div>
+            <div class="fk-alert-row__main">
+              <div class="fk-alert-row__title">Humidité basse — 71 % (attendu 78–82 %)</div>
+              <div class="fk-alert-row__meta">Colombie · Finca La Esperanza · déclenchée à 09:14</div>
+            </div>
+            <div class="fk-alert-row__actions">
+              <button class="fk-btn fk-btn--ghost fk-btn--sm">Acquitter</button>
+              <button class="fk-btn fk-btn--primary fk-btn--sm">Résoudre</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+</body>
+</html>

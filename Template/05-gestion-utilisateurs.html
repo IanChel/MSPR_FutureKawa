@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Gestion des utilisateurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+
+  <aside class="fk-side">
+    <div class="fk-side__brand">
+      <div class="fk-logo">
+        <span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span>
+        <span class="fk-logo__name">Future<em>Kawa</em></span>
+      </div>
+    </div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a>
+      <a href="#"><span class="ic">◷</span> Pays</a>
+      <a href="#"><span class="ic">▤</span> Stocks &amp; lots</a>
+      <a href="#"><span class="ic">◭</span> Alertes</a>
+      <a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group">
+      <div class="fk-side__label">Administration</div>
+      <nav class="fk-nav">
+        <a href="#" class="is-active"><span class="ic">◉</span> Utilisateurs</a>
+        <a href="#"><span class="ic">▣</span> Rôles &amp; permissions</a>
+        <a href="#"><span class="ic">❑</span> Audit</a>
+        <a href="#"><span class="ic">⚙</span> Paramètres</a>
+      </nav>
+    </div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+
+  <div class="fk-main">
+    <header class="fk-top">
+      <span class="fk-top__title">Administration</span>
+      <div class="fk-top__spacer"></div>
+      <div class="fk-pays" role="group" aria-label="Pays">
+        <button class="is-active">Tous</button>
+        <button>Brésil</button>
+        <button>Équateur</button>
+        <button>Colombie</button>
+      </div>
+      <div class="fk-user">
+        <div class="fk-avatar">SA</div>
+        <div class="fk-user__meta">
+          <div class="fk-user__name">Super Admin</div>
+          <div class="fk-user__role">Siège · tous pays</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="fk-content">
+      <div class="fk-page-head">
+        <h1>Utilisateurs</h1>
+        <p>Gérez les comptes et leurs accès selon votre périmètre.</p>
+      </div>
+
+      <div class="fk-toolbar">
+        <div class="fk-search"><span>🔍</span><input placeholder="Rechercher un nom ou un e-mail…"></div>
+        <button class="fk-chip is-active">Tous les rôles</button>
+        <button class="fk-chip">Admin pays</button>
+        <button class="fk-chip">Opérateur</button>
+        <button class="fk-chip">Lecteur</button>
+        <div class="fk-top__spacer"></div>
+        <button class="fk-btn fk-btn--primary">+ Nouvel utilisateur</button>
+      </div>
+
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead>
+            <tr><th>Utilisateur</th><th>Rôle</th><th>Pays</th><th>Dernière connexion</th><th>Actif</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="fk-row"><span class="fk-ava-sm">SA</span><div class="fk-stack"><b>Super Admin</b><span class="fk-muted" style="font-size:12px">superadmin@futurekawa.example</span></div></div></td>
+              <td><span class="fk-badge info">Super Admin</span></td>
+              <td class="fk-muted">Tous</td>
+              <td class="fk-mono" style="font-size:12px">22 juin · 11:48</td>
+              <td><label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label></td>
+              <td><button class="fk-btn fk-btn--ghost fk-btn--sm">⋯</button></td>
+            </tr>
+            <tr>
+              <td><div class="fk-row"><span class="fk-ava-sm">AB</span><div class="fk-stack"><b>Admin Brésil</b><span class="fk-muted" style="font-size:12px">admin-bresil@futurekawa.example</span></div></div></td>
+              <td><span class="fk-badge muted">Admin Pays</span></td>
+              <td>Brésil</td>
+              <td class="fk-mono" style="font-size:12px">—</td>
+              <td><label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label></td>
+              <td><button class="fk-btn fk-btn--ghost fk-btn--sm">⋯</button></td>
+            </tr>
+            <tr>
+              <td><div class="fk-row"><span class="fk-ava-sm">AE</span><div class="fk-stack"><b>Admin Équateur</b><span class="fk-muted" style="font-size:12px">admin-equateur@futurekawa.example</span></div></div></td>
+              <td><span class="fk-badge muted">Admin Pays</span></td>
+              <td>Équateur</td>
+              <td class="fk-mono" style="font-size:12px">22 juin · 11:48</td>
+              <td><label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label></td>
+              <td><button class="fk-btn fk-btn--ghost fk-btn--sm">⋯</button></td>
+            </tr>
+            <tr>
+              <td><div class="fk-row"><span class="fk-ava-sm">JS</span><div class="fk-stack"><b>João Silva</b><span class="fk-muted" style="font-size:12px">operateur-br@futurekawa.example</span></div></div></td>
+              <td><span class="fk-badge muted">Opérateur</span></td>
+              <td>Brésil</td>
+              <td class="fk-mono" style="font-size:12px">22 juin · 09:30</td>
+              <td><label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label></td>
+              <td><button class="fk-btn fk-btn--ghost fk-btn--sm">⋯</button></td>
+            </tr>
+            <tr>
+              <td><div class="fk-row"><span class="fk-ava-sm">SI</span><div class="fk-stack"><b>Simulateur</b><span class="fk-muted" style="font-size:12px">simulateur@futurekawa.example</span></div></div></td>
+              <td><span class="fk-badge muted">Lecteur</span></td>
+              <td class="fk-muted">Technique</td>
+              <td class="fk-mono" style="font-size:12px">22 juin · 11:48</td>
+              <td><label class="fk-switch"><input type="checkbox" checked><span class="track"></span></label></td>
+              <td><button class="fk-btn fk-btn--ghost fk-btn--sm">⋯</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fk-pagination">
+          <button>‹</button>
+          <button class="is-active">1</button>
+          <button>2</button>
+          <button>›</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ MODALE : nouvel utilisateur (ouverte pour la démo) ============ -->
+<div class="fk-overlay">
+  <div class="fk-modal">
+    <div class="fk-modal__head">
+      <h3>Nouvel utilisateur</h3>
+      <button class="fk-modal__close">×</button>
+    </div>
+    <div class="fk-modal__body">
+      <div class="fk-form-2">
+        <div class="fk-field">
+          <label>Prénom</label>
+          <input class="fk-input" placeholder="Maria">
+        </div>
+        <div class="fk-field">
+          <label>Nom</label>
+          <input class="fk-input" placeholder="Vera">
+        </div>
+      </div>
+      <div class="fk-field">
+        <label>Adresse e-mail</label>
+        <input class="fk-input" placeholder="prenom.nom@futurekawa.example">
+      </div>
+      <div class="fk-form-2">
+        <div class="fk-field">
+          <label>Rôle</label>
+          <select class="fk-select">
+            <option>Opérateur</option>
+            <option>Lecteur</option>
+            <option>Admin Pays</option>
+            <option>Super Admin</option>
+          </select>
+        </div>
+        <div class="fk-field">
+          <label>Pays</label>
+          <select class="fk-select">
+            <option>Brésil</option>
+            <option selected>Équateur</option>
+            <option>Colombie</option>
+          </select>
+        </div>
+      </div>
+      <div class="fk-field" style="margin-bottom:4px">
+        <label>Mot de passe provisoire</label>
+        <input class="fk-input" type="password" value="Operateur123!">
+        <div class="fk-hint">L'utilisateur devra le modifier à sa première connexion.</div>
+      </div>
+    </div>
+    <div class="fk-modal__foot">
+      <button class="fk-btn fk-btn--ghost">Annuler</button>
+      <button class="fk-btn fk-btn--primary">Créer le compte</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

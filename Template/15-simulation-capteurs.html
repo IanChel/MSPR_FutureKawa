@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Simulation des capteurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Outils</div><nav class="fk-nav"><a href="#" class="is-active"><span class="ic">⊙</span> Simulation</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Démonstration</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Simulation des capteurs</h1><p>Génère des mesures réalistes et les publie comme un capteur réel (démo sans matériel).</p></div>
+      <div class="fk-grid-2">
+        <div class="fk-card">
+          <div class="fk-card__head"><h3>Configuration</h3></div>
+          <div class="fk-card__body">
+            <div class="fk-form-2">
+              <div class="fk-field"><label>Pays</label><select class="fk-select"><option>Brésil</option><option>Équateur</option><option>Colombie</option></select></div>
+              <div class="fk-field"><label>Entrepôt</label><select class="fk-select"><option>Entrepôt Sud</option><option>Entrepôt 1</option></select></div>
+            </div>
+            <div class="fk-field"><label>Capteur</label><select class="fk-select"><option>capteur-br-sud-01</option><option>capteur-br-sud-02</option></select></div>
+            <div class="fk-field"><label>Mode</label>
+              <div class="fk-row" style="gap:8px">
+                <button class="fk-chip is-active">Normal</button>
+                <button class="fk-chip">Anomalie</button>
+              </div>
+            </div>
+            <div class="fk-field" style="margin-bottom:6px"><label>Fréquence d'envoi</label>
+              <select class="fk-select"><option>Toutes les 5 secondes</option><option>Toutes les 10 secondes</option><option>Toutes les 30 secondes</option></select>
+            </div>
+            <div class="fk-row" style="gap:10px; margin-top:8px">
+              <button class="fk-btn fk-btn--primary">▶ Démarrer</button>
+              <button class="fk-btn fk-btn--ghost">■ Arrêter</button>
+            </div>
+          </div>
+        </div>
+        <div class="fk-card">
+          <div class="fk-card__head"><h3>Flux en direct</h3><div class="fk-top__spacer"></div><span class="fk-badge ok">● En cours</span></div>
+          <div class="fk-card__body">
+            <div class="fk-row" style="gap:26px; margin-bottom:16px">
+              <div><div class="fk-muted" style="font-size:12px">Température</div><div class="fk-readout"><b style="font-size:28px">29.4</b><span>°C</span></div></div>
+              <div><div class="fk-muted" style="font-size:12px">Humidité</div><div class="fk-readout"><b style="font-size:28px">55.2</b><span>%HR</span></div></div>
+              <div style="margin-left:auto"><span class="fk-badge ok">Dans la plage</span></div>
+            </div>
+            <svg viewBox="0 0 480 160" width="100%" height="160">
+              <rect x="0" y="55" width="480" height="50" fill="#E7F0DF"/>
+              <path d="M0,90 L60,84 L120,92 L180,80 L240,88 L300,82 L360,90 L420,84 L480,88" fill="none" stroke="var(--vert-profond)" stroke-width="2.5"/>
+            </svg>
+            <div class="fk-muted" style="font-size:12px; margin-top:8px">Publié sur <span class="fk-mono">futurekawa/bresil/entrepot-sud/mesures</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

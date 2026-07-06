@@ -1,0 +1,187 @@
+# ============================================================
+#  FutureKawa — Stack complet (back-end + infra + simulateur)
+#  Lancer TOUT le système :  docker compose -f docker-compose.full.yml up -d --build
+# ============================================================
+#  Les conteneurs se résolvent par leur nom (ex. le central
+#  appelle http://fk-pays-bresil:8080).
+#  À l'intérieur du réseau Docker, TOUTES les bases PostgreSQL
+#  écoutent sur 5432. Les ports 5433/5434/5440 ne servent qu'à
+#  un accès depuis votre machine (hôte).
+# ============================================================
+
+name: futurekawa
+
+services:
+
+  # ---------------- BASES DE DONNÉES ----------------
+  fk-postgres:                       # Base Brésil
+    image: postgres:17
+    container_name: fk-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-futurekawa}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      POSTGRES_DB: futurekawa
+    ports: ["5432:5432"]
+    volumes: ["pgdata_br:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-futurekawa}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  fk-postgres-ec:                    # Base Équateur
+    image: postgres:17
+    container_name: fk-postgres-ec
+    environment:
+      POSTGRES_USER: ${DB_USER:-futurekawa}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      POSTGRES_DB: futurekawa
+    ports: ["5433:5432"]
+    volumes: ["pgdata_ec:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-futurekawa}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  fk-postgres-co:                    # Base Colombie
+    image: postgres:17
+    container_name: fk-postgres-co
+    environment:
+      POSTGRES_USER: ${DB_USER:-futurekawa}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      POSTGRES_DB: futurekawa
+    ports: ["5434:5432"]
+    volumes: ["pgdata_co:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-futurekawa}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  fk-postgres-identite:              # Base Identité (central)
+    image: postgres:17
+    container_name: fk-postgres-identite
+    environment:
+      POSTGRES_USER: ${DB_USER:-futurekawa}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      POSTGRES_DB: identite
+    ports: ["5440:5432"]
+    volumes: ["pgdata_identite:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-futurekawa}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ---------------- INFRASTRUCTURE ----------------
+  fk-mosquitto:                      # Broker MQTT
+    image: eclipse-mosquitto:2
+    container_name: fk-mosquitto
+    ports: ["1883:1883"]
+    volumes:
+      - ./infra/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  fk-mailpit:                        # Faux SMTP (emails de test)
+    image: axllent/mailpit:latest
+    container_name: fk-mailpit
+    ports:
+      - "1025:1025"                  # SMTP
+      - "8025:8025"                  # Interface web
+
+  # ---------------- BACK-ENDS PAYS ----------------
+  # NB : on garde les profils equateur/colombie (seeds, seuils, topic,
+  # port, e-mail) et on surcharge SEULEMENT la datasource + le MQTT
+  # via des variables PRIORITAIRES (sinon les profils réécrivent
+  # ces valeurs en "localhost").
+  fk-pays-bresil:
+    build: { context: ./backend-pays }
+    container_name: fk-pays-bresil
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fk-postgres:5432/futurekawa
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-futurekawa}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      APP_MQTT_BROKERURL: tcp://fk-mosquitto:1883
+      MAIL_HOST: fk-mailpit
+      MAIL_PORT: "1025"
+    ports: ["8085:8080"]
+    depends_on:
+      fk-postgres: { condition: service_healthy }
+      fk-mosquitto: { condition: service_started }
+      fk-mailpit: { condition: service_started }
+
+  fk-pays-equateur:
+    build: { context: ./backend-pays }
+    container_name: fk-pays-equateur
+    environment:
+      SPRING_PROFILES_ACTIVE: dev,equateur
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fk-postgres-ec:5432/futurekawa
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-futurekawa}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      APP_MQTT_BROKERURL: tcp://fk-mosquitto:1883
+      MAIL_HOST: fk-mailpit
+      MAIL_PORT: "1025"
+    ports: ["8081:8081"]
+    depends_on:
+      fk-postgres-ec: { condition: service_healthy }
+      fk-mosquitto: { condition: service_started }
+      fk-mailpit: { condition: service_started }
+
+  fk-pays-colombie:
+    build: { context: ./backend-pays }
+    container_name: fk-pays-colombie
+    environment:
+      SPRING_PROFILES_ACTIVE: dev,colombie
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fk-postgres-co:5432/futurekawa
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-futurekawa}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      APP_MQTT_BROKERURL: tcp://fk-mosquitto:1883
+      MAIL_HOST: fk-mailpit
+      MAIL_PORT: "1025"
+    ports: ["8082:8082"]
+    depends_on:
+      fk-postgres-co: { condition: service_healthy }
+      fk-mosquitto: { condition: service_started }
+      fk-mailpit: { condition: service_started }
+
+  # ---------------- BACK-END CENTRAL ----------------
+  fk-central:
+    build: { context: ./backend-central }
+    container_name: fk-central
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      IDENTITE_DB_URL: jdbc:postgresql://fk-postgres-identite:5432/identite
+      IDENTITE_DB_USER: ${DB_USER:-futurekawa}
+      IDENTITE_DB_PASSWORD: ${DB_PASSWORD:-futurekawa}
+      JWT_SECRET: ${JWT_SECRET:-changez-moi-en-production-secret-de-32-caracteres-minimum}
+    ports: ["8090:8090"]
+    depends_on:
+      fk-postgres-identite: { condition: service_healthy }
+      fk-pays-bresil: { condition: service_started }
+      fk-pays-equateur: { condition: service_started }
+      fk-pays-colombie: { condition: service_started }
+
+  # ---------------- SIMULATEUR (démo) ----------------
+  fk-simulateur:
+    build: { context: ./simulateur-web }
+    container_name: fk-simulateur
+    environment:
+      CENTRAL_URL: http://fk-central:8090
+      MQTT_HOST: fk-mosquitto
+      MQTT_PORT: "1883"
+      SIM_EMAIL: simulateur@futurekawa.example
+      SIM_PASSWORD: Admin123!
+    volumes:
+      - ./simulateur-web:/app
+    command: uvicorn app:app --host 0.0.0.0 --port 8050 --reload
+    ports: ["8050:8050"]
+    depends_on:
+      fk-central: { condition: service_started }
+      fk-mosquitto: { condition: service_started }
+
+volumes:
+  pgdata_br:
+  pgdata_ec:
+  pgdata_co:
+  pgdata_identite:

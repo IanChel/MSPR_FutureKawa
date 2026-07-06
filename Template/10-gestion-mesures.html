@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Mesures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a>
+      <a href="#" class="is-active"><span class="ic">∿</span> Mesures</a><a href="#"><span class="ic">▥</span> Entrepôts</a><a href="#"><span class="ic">⊡</span> Capteurs</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration pays</div><nav class="fk-nav"><a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#"><span class="ic">❑</span> Audit</a></nav></div>
+    <div class="fk-side__foot">v1.0 · Brésil</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Périmètre</span><span class="fk-badge ok" style="font-size:13px">🟢 Brésil</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">AB</div><div class="fk-user__meta"><div class="fk-user__name">Admin Brésil</div><div class="fk-user__role">Administrateur · Brésil</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Mesures</h1><p>Historique des conditions relevées par les capteurs.</p></div>
+      <div class="fk-toolbar">
+        <select class="fk-select" style="width:auto"><option>Entrepôt 1</option><option>Entrepôt Sud</option><option>Entrepôt 3</option></select>
+        <button class="fk-chip">24 h</button><button class="fk-chip is-active">7 jours</button><button class="fk-chip">30 jours</button>
+        <div class="fk-top__spacer"></div>
+        <button class="fk-btn fk-btn--ghost fk-btn--sm">Exporter CSV</button>
+      </div>
+
+      <div class="fk-card" style="margin-bottom:16px">
+        <div class="fk-card__head"><h3>Température</h3><div class="fk-top__spacer"></div>
+          <span class="fk-row" style="gap:14px"><span class="fk-badge ok">Cible 26–32 °C</span><span class="fk-readout is-out"><b>36.0</b><span>°C max</span></span></span></div>
+        <div class="fk-card__body">
+          <svg viewBox="0 0 900 220" width="100%" height="220">
+            <rect x="0" y="70" width="900" height="70" fill="#E7F0DF"/>
+            <line x1="0" y1="70" x2="900" y2="70" stroke="#BBD0A8" stroke-dasharray="5 5"/>
+            <line x1="0" y1="140" x2="900" y2="140" stroke="#BBD0A8" stroke-dasharray="5 5"/>
+            <path d="M0,118 L110,110 L220,124 L330,96 L440,150 L520,170 L560,168 L640,120 L760,108 L900,98" fill="none" stroke="var(--vert-profond)" stroke-width="2.5"/>
+            <circle cx="520" cy="170" r="5" fill="var(--terre)"/><circle cx="560" cy="168" r="5" fill="var(--terre)"/>
+            <text x="525" y="190" font-size="11" fill="#B4543A" font-family="IBM Plex Mono">pic 36°C</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="fk-card">
+        <div class="fk-card__head"><h3>Humidité</h3><div class="fk-top__spacer"></div>
+          <span class="fk-row" style="gap:14px"><span class="fk-badge ok">Cible 53–57 %</span><span class="fk-readout"><b>55.2</b><span>%HR</span></span></span></div>
+        <div class="fk-card__body">
+          <svg viewBox="0 0 900 220" width="100%" height="220">
+            <rect x="0" y="80" width="900" height="60" fill="#DEEDF0"/>
+            <line x1="0" y1="80" x2="900" y2="80" stroke="#A9CBD4" stroke-dasharray="5 5"/>
+            <line x1="0" y1="140" x2="900" y2="140" stroke="#A9CBD4" stroke-dasharray="5 5"/>
+            <path d="M0,108 L110,112 L220,100 L330,116 L440,148 L520,160 L560,150 L640,118 L760,110 L900,106" fill="none" stroke="var(--info)" stroke-width="2.5"/>
+            <circle cx="520" cy="160" r="5" fill="var(--terre)"/>
+          </svg>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

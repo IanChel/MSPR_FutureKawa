@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureKawa — Rôles &amp; permissions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>.perm{ text-align:center }.perm .yes{color:var(--ok);font-weight:700}.perm .no{color:var(--grain)}</style>
+</head>
+<body>
+<div class="fk-app">
+  <aside class="fk-side">
+    <div class="fk-side__brand"><div class="fk-logo"><span class="fk-logo__mark"><svg width="30" height="30" viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="13" fill="#8A9A5B"/><path d="M16 4 C 12 12, 12 20, 16 28" stroke="#16291F" stroke-width="1.6" fill="none"/></svg></span><span class="fk-logo__name">Future<em>Kawa</em></span></div></div>
+    <nav class="fk-nav">
+      <a href="#"><span class="ic">▦</span> Tableau de bord</a><a href="#"><span class="ic">◷</span> Pays</a><a href="#"><span class="ic">▤</span> Stocks &amp; lots</a><a href="#"><span class="ic">◭</span> Alertes</a><a href="#"><span class="ic">∿</span> Mesures</a>
+    </nav>
+    <div class="fk-side__group"><div class="fk-side__label">Administration</div><nav class="fk-nav">
+      <a href="#"><span class="ic">◉</span> Utilisateurs</a><a href="#" class="is-active"><span class="ic">▣</span> Rôles &amp; permissions</a><a href="#"><span class="ic">❑</span> Audit</a><a href="#"><span class="ic">⚙</span> Paramètres</a>
+    </nav></div>
+    <div class="fk-side__foot">v1.0 · Siège</div>
+  </aside>
+  <div class="fk-main">
+    <header class="fk-top"><span class="fk-top__title">Administration</span><div class="fk-top__spacer"></div>
+      <div class="fk-user"><div class="fk-avatar">SA</div><div class="fk-user__meta"><div class="fk-user__name">Super Admin</div><div class="fk-user__role">Siège · tous pays</div></div></div>
+    </header>
+    <main class="fk-content">
+      <div class="fk-page-head"><h1>Rôles &amp; permissions</h1><p>Matrice des droits par rôle. Le périmètre (pays) s'applique en plus de ces permissions.</p></div>
+      <div class="fk-card">
+        <table class="fk-table">
+          <thead><tr><th>Permission</th><th class="perm">Super Admin</th><th class="perm">Admin Pays</th><th class="perm">Opérateur</th><th class="perm">Lecteur</th></tr></thead>
+          <tbody>
+            <tr><td>Consulter stocks &amp; mesures</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td></tr>
+            <tr><td>Enregistrer un lot</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td></tr>
+            <tr><td>Acquitter / résoudre une alerte</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td></tr>
+            <tr><td>Gérer les utilisateurs</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td></tr>
+            <tr><td>Supprimer un compte</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td></tr>
+            <tr><td>Accéder à tous les pays</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td></tr>
+            <tr><td>Consulter le journal d'audit</td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="yes">✓</span></td><td class="perm"><span class="no">—</span></td><td class="perm"><span class="no">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fk-alert ok" style="margin-top:18px">ℹ️ En lecture seule dans cette version. L'édition de la matrice est prévue comme évolution.</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
